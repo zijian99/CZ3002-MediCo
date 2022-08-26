@@ -1,5 +1,6 @@
 import React, { useEffect, } from "react";
 import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function ProtectedPage(props){
     useEffect(() => {
