@@ -7,12 +7,13 @@ import Register from "./pages/Register";
 import SymptomDelcation from "./pages/SymptomDeclaration";
 import DoctorChat from "./pages/DoctorChat";
 function App() {
+	const [loggedIn, setLoggedIn] = useState(false);
 	return (
 		<div className='App'>
 			<BrowserRouter>
 				<Routes>
 					<Route path='/' element={<Home />} />
-					<Route path='/Login' element={<Login />} />
+					<Route path='/Login' element={<Login loggedIn={loggedIn} setLoggedIn={loggedIn}/>} />
 					<Route path='/Register' element={<Register />} />
 					<Route path='/SymptomDelcation' element={<SymptomDelcation />} />
 					<Route path='/DoctorChat' element={<DoctorChat />} />
