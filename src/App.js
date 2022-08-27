@@ -8,9 +8,10 @@ import SymptomDeclaration from "./pages/SymptomDeclaration";
 import DoctorChat from "./pages/DoctorChat";
 import ProtectedPage from "./pages/ProtectedPage";
 import DebugPage from "./pages/DebugPage";
+import Selection from "./pages/Selection";
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
     return (
         <div className="App">
             <BrowserRouter>
@@ -30,6 +31,10 @@ function App() {
                     <Route path="/doctorchat" element={<DoctorChat />} />
                     <Route path="/protected" element={<ProtectedPage />} />
                     <Route path="/debug" element={<DebugPage />} />
+                    <Route
+                        path="/selection"
+                        element={<Selection loggedIn={loggedIn} />}
+                    />
                 </Routes>
             </BrowserRouter>
         </div>

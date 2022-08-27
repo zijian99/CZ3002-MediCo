@@ -2,18 +2,10 @@ import React, { useEffect } from "react";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import {
-    Card,
-    CardAction,
-    CardActionArea,
-    CardMedia,
-    CardContent,
-    Typography,
-} from "mui/material";
 import SelectionCard from "../components/SelectionCard";
-import doctor_image from "../assets";
-import symptom_declaration_image from "../assets";
-import CanvasDraw from "react-canvas-draw";
+import doctor_image from "../assets/doctor_image.jpg";
+import symptom_declaration_image from "../assets/symptom_declaration_image.jpg";
+import { Grid } from "@mui/material";
 
 export default function Selection(props) {
     const navigate = useNavigate();
@@ -44,7 +36,12 @@ export default function Selection(props) {
     };
     return props.loggedIn ? (
         <div>
-            <Grid container>
+            <Grid
+                container
+                spacing={10}
+                alignItems="center"
+                justifyContent="center"
+            >
                 <Grid item>
                     <SelectionCard
                         image={doctor_image}
