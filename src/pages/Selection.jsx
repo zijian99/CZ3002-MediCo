@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import SelectionCard from "../components/SelectionCard";
 import doctor_image from "../assets/doctor_image.jpg";
 import symptom_declaration_image from "../assets/symptom_declaration_image.jpg";
-import { Grid } from "@mui/material";
+import { Grid, CircularProgress } from "@mui/material";
 
 export default function Selection(props) {
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
     useEffect(() => {
         //Set up observer on user authentication
         onAuthStateChanged(auth, (user) => {
@@ -16,25 +18,40 @@ export default function Selection(props) {
                 // User is signed in
                 console.log("Authorization granted.");
                 props.setLoggedIn(true);
+                setLoading(false);
             } else {
                 // User is signed out
                 console.log("Not authorized.");
                 props.setLoggedIn(false);
+                setLoading(false);
             }
         });
     });
 
     const onClickHandler = (event) => {
-        if (event.value == 0) {
+        console.log("Clicked!");
+        if (event == 0) {
             // Doctor Chat chosen
-            navigate("/chat");
+            navigate("/doctorchat");
         }
-        if (event.value == 1) {
+        if (event == 1) {
             // Symptom Declaration chosen
             navigate("/symptomdeclaration");
         }
     };
-    return props.loggedIn ? (
+
+    return loading ? (
+        <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ minHeight: "90vh" }}
+        >
+            <CircularProgress size={100} />
+        </Grid>
+    ) : props.loggedIn ? (
         <div>
             <Grid
                 container
@@ -47,6 +64,9 @@ export default function Selection(props) {
                         image={doctor_image}
                         title="Chat with a doctor"
                         subtitle="Consult a doctor using live chat."
+                        onClick={() => {
+                            onClickHandler(0);
+                        }}
                     />
                 </Grid>
                 <Grid item>
@@ -54,7 +74,10 @@ export default function Selection(props) {
                         image={symptom_declaration_image}
                         title="Declare symptoms"
                         subtitle="Indicate your symptoms using a visual diagram."
-                    ></SelectionCard>
+                        onClick={() => {
+                            onClickHandler(1);
+                        }}
+                    />
                 </Grid>
             </Grid>
         </div>

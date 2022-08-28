@@ -11,7 +11,7 @@ import DebugPage from "./pages/DebugPage";
 import Selection from "./pages/Selection";
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
     return (
         <div className="App">
             <BrowserRouter>
@@ -20,7 +20,10 @@ function App() {
                     <Route
                         path="/login"
                         element={
-                            <Login loggedIn={loggedIn} setLoggedIn={loggedIn} />
+                            <Login
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
                         }
                     />
                     <Route path="/register" element={<Register />} />
@@ -33,7 +36,12 @@ function App() {
                     <Route path="/debug" element={<DebugPage />} />
                     <Route
                         path="/selection"
-                        element={<Selection loggedIn={loggedIn} />}
+                        element={
+                            <Selection
+                                setLoggedIn={setLoggedIn}
+                                loggedIn={loggedIn}
+                            />
+                        }
                     />
                 </Routes>
             </BrowserRouter>

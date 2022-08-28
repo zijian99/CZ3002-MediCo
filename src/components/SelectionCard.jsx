@@ -18,6 +18,7 @@ export default function SelectionCard(props) {
                     transform: "scale(1.1)",
                 },
             }}
+            onClick={props.onClick}
         >
             <CardActionArea
                 sx={{ minheight: 600, maxWidth: 600, borderRadius: 5 }}
