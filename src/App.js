@@ -26,14 +26,51 @@ function App() {
                             />
                         }
                     />
-                    <Route path="/register" element={<Register />} />
+                    <Route
+                        path="/register"
+                        element={
+                            <Register
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
+                    />
                     <Route
                         path="/symptomdeclaration"
-                        element={<SymptomDeclaration />}
+                        element={
+                            <SymptomDeclaration
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
                     />
-                    <Route path="/doctorchat" element={<DoctorChat />} />
-                    <Route path="/protected" element={<ProtectedPage />} />
-                    <Route path="/debug" element={<DebugPage />} />
+                    <Route
+                        path="/doctorchat"
+                        element={
+                            <DoctorChat
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/protected"
+                        element={
+                            <ProtectedPage
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/debug"
+                        element={
+                            <DebugPage
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
+                    />
                     <Route
                         path="/selection"
                         element={
