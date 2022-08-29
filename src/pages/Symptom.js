@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component,  useRef, useState } from "react";
 import { render } from "react-dom";
 import { Typography } from "@mui/material";
 
@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import CanvasDraw from "react-canvas-draw";
 import classNames from "../css/SymptomDeclaration.css";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -17,6 +18,12 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
+
+
+
+     
+
+
 
 class Symptom extends Component {
   constructor(props) {
@@ -82,6 +89,7 @@ class Symptom extends Component {
     });
   };
 
+  
   render() {
     return (
       <div>
@@ -107,6 +115,12 @@ class Symptom extends Component {
           </Box>
         </div>
 
+
+
+     
+ 
+
+
         <Stack>
           <div id="headDiv" hidden={!this.state.headDiv}>
             <h1>Head Area</h1>
@@ -116,6 +130,7 @@ class Symptom extends Component {
                   variant="contained"
                   onClick={() => {
                     localStorage.setItem("savedhead", this.head.getSaveData());
+                
                   }}
                 >
                   Save
@@ -139,13 +154,15 @@ class Symptom extends Component {
                 <Button
                   variant="contained"
                   onClick={() => {
+          
                     console.log(this.head.getDataURL());
+              
                     alert("DataURL written to console");
                   }}
                 >
                   <a>Download</a>
                 </Button>
-
+            
                 <Button variant="contained" onClick={this.hideHead}>
                   Hide Head
                 </Button>
@@ -153,6 +170,7 @@ class Symptom extends Component {
             </div>
             <div className="rowC">
               <CanvasDraw
+                id='canvasHead'
                 ref={(canvasDraw) => (this.head = canvasDraw)}
                 brushColor="#ff0000"
                 brushRadius={3}
@@ -161,6 +179,8 @@ class Symptom extends Component {
                 canvasHeight={400}
                 imgSrc="https://t3.ftcdn.net/jpg/04/36/90/16/360_F_436901678_gPFyYlmTrCJWExu88453HURJpC9mFHcl.jpg"
               />
+
+              <img id="source"/>
             </div>
           </div>
 
@@ -199,6 +219,7 @@ class Symptom extends Component {
                   variant="contained"
                   onClick={() => {
                     console.log(this.chest.getDataURL());
+              
                     alert("DataURL written to console");
                   }}
                 >
