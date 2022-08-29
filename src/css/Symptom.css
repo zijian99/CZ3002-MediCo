@@ -1,0 +1,18 @@
+.content-container {
+    padding: 10%;
+    height: 100vh;
+    background-color: lightgrey;
+    font-size: 64px;
+}
+.left-panel {
+    background-color: lightyellow;
+}
+.middle-panel {
+    background-color: lightblue
+}
+.right-panel {
+    background-color: lightgreen;
+}
+.box {
+    border: 1px solid black;
+}

@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import SymptomDelcation from "./pages/SymptomDeclaration";
 import DoctorChat from "./pages/DoctorChat";
+import Symptom from "./pages/Symptom";
 function App() {
 	return (
 		<div className='App'>
@@ -16,6 +17,7 @@ function App() {
 					<Route path='/Register' element={<Register />} />
 					<Route path='/SymptomDelcation' element={<SymptomDelcation />} />
 					<Route path='/DoctorChat' element={<DoctorChat />} />
+					<Route path='/Symptom' element={<Symptom />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
