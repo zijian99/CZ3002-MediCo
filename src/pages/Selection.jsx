@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { auth } from "../firebase";
+import React, { useEffect, useState } from "react"; import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import SelectionCard from "../components/SelectionCard";
 import doctor_image from "../assets/doctor_image.jpg";
 import symptom_declaration_image from "../assets/symptom_declaration_image.jpg";
-import { Grid, CircularProgress } from "@mui/material";
+import { Grid, CircularProgress, Typography } from "@mui/material";
 
 export default function Selection(props) {
     const [loading, setLoading] = useState(true);
@@ -55,11 +54,13 @@ export default function Selection(props) {
         <div>
             <Grid
                 container
-                spacing={10}
                 alignItems="center"
                 justifyContent="center"
             >
-                <Grid item>
+				<Grid item xs={12} mt={1} mb={3}>
+					<Typography sx={{fontWeight: 'bold'}} variant="h3">Welcome! What would you like to do today?</Typography>
+				</Grid>
+                <Grid item mr={5}>
                     <SelectionCard
                         image={doctor_image}
                         title="Chat with a doctor"
@@ -69,7 +70,7 @@ export default function Selection(props) {
                         }}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item ml={5}>
                     <SelectionCard
                         image={symptom_declaration_image}
                         title="Declare symptoms"

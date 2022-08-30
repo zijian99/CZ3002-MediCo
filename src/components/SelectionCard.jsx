@@ -11,7 +11,7 @@ export default function SelectionCard(props) {
     return (
         <Card
             sx={{
-                maxWidth: 500,
+				width: "60vh",
                 borderRadius: 16,
                 transition: "0.2s",
                 "&:hover": {
@@ -21,11 +21,11 @@ export default function SelectionCard(props) {
             onClick={props.onClick}
         >
             <CardActionArea
-                sx={{ minheight: 600, maxWidth: 600, borderRadius: 5 }}
+                sx={{  borderRadius: 5 }}
             >
                 <CardMedia
                     component="img"
-                    height="400"
+					height="300vh"
                     image={props.image}
                     alt=""
                 />
