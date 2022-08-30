@@ -5,6 +5,7 @@ import SelectionCard from "../components/SelectionCard";
 import doctor_image from "../assets/doctor_image.jpg";
 import symptom_declaration_image from "../assets/symptom_declaration_image.jpg";
 import { Grid, CircularProgress, Typography } from "@mui/material";
+import {Fade, Zoom} from "@mui/material"
 
 export default function Selection(props) {
     const [loading, setLoading] = useState(true);
@@ -57,9 +58,19 @@ export default function Selection(props) {
                 alignItems="center"
                 justifyContent="center"
             >
-				<Grid item xs={12} mt={1} mb={3}>
+		<Fade in={true} timeout={2000}>
+            <Grid
+                container
+                alignItems="center"
+                justifyContent="center"
+            >
+				<Grid item  alignItems="center" justifyContent="center" mb={3}> 
 					<Typography sx={{fontWeight: 'bold'}} variant="h3">Welcome! What would you like to do today?</Typography>
 				</Grid>
+			</Grid>
+		</Fade>
+		<Zoom in={true} timeout={1000}>
+			<Grid container xs={12} alignItems="center" justifyContent="center">
                 <Grid item mr={5}>
                     <SelectionCard
                         image={doctor_image}
@@ -80,6 +91,8 @@ export default function Selection(props) {
                         }}
                     />
                 </Grid>
+			</Grid>
+		</Zoom>
             </Grid>
         </div>
     ) : (
