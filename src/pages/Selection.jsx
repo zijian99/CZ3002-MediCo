@@ -97,7 +97,7 @@ export default function Selection(props) {
         </div>
     ) : (
         <div>
-            <h1>Not logged in</h1>
+															<Typography>Not logged in</Typography>
         </div>
     );
 }
