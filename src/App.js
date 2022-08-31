@@ -6,8 +6,28 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import SymptomDelcation from "./pages/SymptomDeclaration";
 import DoctorChat from "./pages/DoctorChat";
+import Navbar from "./Navbar";
+
 function App() {
+	let Component
+	switch(window.location.pathname){
+		case "./pages/Home":
+			Component = Home
+			break
+		case "./pages/Login":
+			Component = Login
+			break
+		case "./pages/Register":
+			Component = Register
+			break
+
+	}
+
 	return (
+		<>
+		<Navbar /><div className='container'>
+			{Component}
+		</div>
 		<div className='App'>
 			<BrowserRouter>
 				<Routes>
@@ -19,6 +39,7 @@ function App() {
 				</Routes>
 			</BrowserRouter>
 		</div>
+		</>
 	);
 }
 export default App;
