@@ -9,14 +9,18 @@ import {
     ListSubheader,
     CircularProgress,
 } from '@mui/material';
-import ChatBubble from './ChatBubble';
+import ChatBubble from './ChatBubble.jsx';
 import { Virtuoso } from 'react-virtuoso';
-import { db } from '../firebase';
-import { onSnapshot, query, collection, orderBy } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import {
+    onSnapshot,
+    query,
+    collection,
+    orderBy,
+    limit,
+    getDocs,
+} from 'firebase/firestore';
 import { Navigate, useNavigate } from 'react-router-dom';
-
-// Get chat collection, order by timestamp:
-// const q = query(collection(db, "chat_history"), orderBy("timestamp"));
 
 const MUIComponents = {
     List: React.forwardRef(({ style, children }, listRef) => {
@@ -67,18 +71,52 @@ export default function ChatWindow(props) {
             console.log('userName not found.');
         }
 
-        // Update chat list upon change
-        //    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        //      console.log("Received message list change!");
-        //      const chat_history = [];
-        //      querySnapshot.forEach((doc) => {
-        //        chat_history.push({
-        //          name: doc.data().name,
-        //          message: doc.data().message,
-        //        });
-        //      });
-        //      setCurrentList(chat_history.map((item) => item));
-        //    });
+        // Get consult history collection, order by timestamp:
+        const consult_history_q = query(
+            collection(
+                db,
+                'Users/' + 'J5WUaa4nGwxCan4NG14c' + '/ConsultHistory'
+            ),
+            orderBy('dateTime', 'desc'),
+            limit(1)
+        ); // Placeholder userID for testing
+
+        const getConsultationID = async () => {
+            let document_id = null;
+            const snapShot = await getDocs(consult_history_q);
+            snapShot.forEach((doc) => {
+                document_id = doc.id;
+                console.log(document_id);
+                const q = query(
+                    collection(
+                        db,
+                        'Users/' +
+                            'J5WUaa4nGwxCan4NG14c' +
+                            '/ConsultHistory/' +
+                            document_id +
+                            '/ChatHistory'
+                    ),
+                    orderBy('timestamp')
+                );
+
+                //Update chat list upon change
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    console.log('Received message list change!');
+                    const chat_history = [];
+                    querySnapshot.forEach((doc) => {
+                        chat_history.push({
+                            name: doc.data().from,
+                            message: doc.data().msg,
+                        });
+                    });
+                    setCurrentList(chat_history.map((item) => item));
+                    console.log(currentList);
+                    console.log(chat_history);
+                });
+            });
+        };
+
+        getConsultationID();
     }, [navigate, props.userName]);
 
     return (

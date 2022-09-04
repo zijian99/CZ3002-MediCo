@@ -3,7 +3,7 @@ import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Grid, CircularProgress, Button } from '@mui/material';
 import ChatBar from '../components/ChatBar.jsx';
-import ChatWindow from '../components/ChatWindow';
+import ChatWindow from '../components/ChatWindow.jsx';
 export default function DoctorChat(props) {
     const [loading, setLoading] = useState(true);
     const [userName, setUserName] = useState(null);
@@ -14,8 +14,7 @@ export default function DoctorChat(props) {
                 // User is signed in
                 console.log('Authorization granted.');
                 props.setLoggedIn(true);
-                // Call users collection to get username
-                //setUserName(...)
+                setUserName((prev) => user.uid);
                 setLoading(false);
             } else {
                 // User is signed out
@@ -39,7 +38,7 @@ export default function DoctorChat(props) {
     ) : props.loggedIn ? (
         <Grid container direction='column' justifyContent='flex-start'>
             <Grid item xs={1} sx={{ minHeight: '80vh' }}>
-                <ChatWindow />
+                <ChatWindow userName={'Kate'} />
             </Grid>
             <Grid item xs={6} alignItems='flex-end' justifyContent='flex-end'>
                 <ChatBar />
