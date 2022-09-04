@@ -17,6 +17,7 @@ export default function ChatBubble(props) {
             setAlignment('flex-start');
             setColor('red');
         }
+        console.log('In ChatBubble useEffect');
     });
 
     return (

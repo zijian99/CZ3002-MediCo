@@ -8,8 +8,9 @@ import {
     List,
     ListSubheader,
     CircularProgress,
+    Typography,
 } from '@mui/material';
-import ChatBubble from './ChatBubble.jsx';
+import ChatBubble from './ChatBubble';
 import { Virtuoso } from 'react-virtuoso';
 import { db, auth } from '../firebase';
 import {
@@ -60,9 +61,21 @@ const MUIComponents = {
     },
 };
 
-export default function ChatWindow(props) {
-    const [currentList, setCurrentList] = useState([]);
+// Get chat history collection, order by timestamp:
+const chat_history_q = query(
+    collection(
+        db,
+        'Users/' +
+            'J5WUaa4nGwxCan4NG14c' +
+            '/ConsultHistory/' +
+            'w9BczbnDeH8QKzdWCoMv' +
+            '/ChatHistory'
+    ),
+    orderBy('timestamp')
+); // Placeholder userID for testing
 
+export default function ChatWindow(props) {
+    const [virtualList, setVirtualList] = useState([]);
     const navigate = useNavigate();
     const virtuoso = useRef(null);
 
@@ -71,71 +84,44 @@ export default function ChatWindow(props) {
             console.log('userName not found.');
         }
 
-        // Get consult history collection, order by timestamp:
-        const consult_history_q = query(
-            collection(
-                db,
-                'Users/' + 'J5WUaa4nGwxCan4NG14c' + '/ConsultHistory'
-            ),
-            orderBy('dateTime', 'desc'),
-            limit(1)
-        ); // Placeholder userID for testing
-
-        const getConsultationID = async () => {
-            let document_id = null;
-            const snapShot = await getDocs(consult_history_q);
-            snapShot.forEach((doc) => {
-                document_id = doc.id;
-                console.log(document_id);
-                const q = query(
-                    collection(
-                        db,
-                        'Users/' +
-                            'J5WUaa4nGwxCan4NG14c' +
-                            '/ConsultHistory/' +
-                            document_id +
-                            '/ChatHistory'
-                    ),
-                    orderBy('timestamp')
-                );
-
-                //Update chat list upon change
-                const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                    console.log('Received message list change!');
-                    const chat_history = [];
-                    querySnapshot.forEach((doc) => {
-                        chat_history.push({
-                            name: doc.data().from,
-                            message: doc.data().msg,
-                        });
-                    });
-                    setCurrentList(chat_history.map((item) => item));
-                    console.log(currentList);
-                    console.log(chat_history);
+        //Update chat list upon change
+        const unsubscribe = onSnapshot(chat_history_q, (querySnapshot) => {
+            console.log('Received message list change!');
+            const chat_history = [];
+            querySnapshot.forEach((doc) => {
+                chat_history.push({
+                    name: doc.data().from,
+                    message: doc.data().msg,
                 });
             });
-        };
-
-        getConsultationID();
+            console.log('chat_history: ');
+            console.log(chat_history);
+            setVirtualList(chat_history.map((item) => item));
+        });
     }, [navigate, props.userName]);
+
+    useEffect(() => {
+        console.log('virtualList: ');
+        console.log(virtualList);
+    }, [virtualList]);
 
     return (
         <Virtuoso
             ref={virtuoso}
             style={{ flexGrow: 1, display: 'flex' }}
-            data={currentList}
-            initialTopMostItemIndex={currentList.length - 1}
+            data={virtualList}
+            initialTopMostItemIndex={virtualList.length - 1}
             followOutput='smooth'
             components={MUIComponents}
             itemContent={(index, item) => {
                 return (
                     <ChatBubble
                         message={item['message']}
+                        userName={item['name']}
                         type={
                             item['name'] == props.userName ? 'sent' : 'received'
                         }
-                        userName={item['name']}
-                    ></ChatBubble>
+                    />
                 );
             }}
         ></Virtuoso>

@@ -36,11 +36,20 @@ export default function DoctorChat(props) {
             <CircularProgress size={60} />
         </Grid>
     ) : props.loggedIn ? (
-        <Grid container direction='column' justifyContent='flex-start'>
-            <Grid item xs={1} sx={{ minHeight: '80vh' }}>
+        <Grid
+            container
+            justifyContent='flex-end'
+            p={2}
+            sx={{ minHeight: '100vh', bgcolor: 'background.default' }}
+        >
+            <Grid
+                container
+                sx={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}
+                xs={12}
+            >
                 <ChatWindow userName={'Kate'} />
             </Grid>
-            <Grid item xs={6} alignItems='flex-end' justifyContent='flex-end'>
+            <Grid container xs={12} sx={{ justifyContent: 'flex-start' }}>
                 <ChatBar />
             </Grid>
         </Grid>
