@@ -61,6 +61,8 @@ const MUIComponents = {
     },
 };
 
+//TO DO: create a new chat history document
+
 // Get chat history collection, order by timestamp:
 const chat_history_q = query(
     collection(
@@ -108,7 +110,7 @@ export default function ChatWindow(props) {
     return (
         <Virtuoso
             ref={virtuoso}
-            style={{ flexGrow: 1, display: 'flex' }}
+            style={{ minHeight: '50vh', flexGrow: 1, display: 'flex' }}
             data={virtualList}
             initialTopMostItemIndex={virtualList.length - 1}
             followOutput='smooth'
