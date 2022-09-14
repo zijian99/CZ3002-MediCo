@@ -27,7 +27,6 @@ export default function DoctorChat(props) {
     return loading ? (
         <Grid
             container
-            spacing={0}
             direction='column'
             alignItems='center'
             justifyContent='center'
@@ -38,18 +37,13 @@ export default function DoctorChat(props) {
     ) : props.loggedIn ? (
         <Grid
             container
-            justifyContent='flex-end'
-            p={2}
             sx={{ minHeight: '100vh', bgcolor: 'background.default' }}
+            direction='column'
         >
-            <Grid
-                container
-                sx={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}
-                xs={12}
-            >
+            <Grid item alignItems='center' xs={12} sx={{ minHeight: '80vh' }}>
                 <ChatWindow userName={'Kate'} />
             </Grid>
-            <Grid container xs={12} sx={{ justifyContent: 'flex-start' }}>
+            <Grid item>
                 <ChatBar />
             </Grid>
         </Grid>
