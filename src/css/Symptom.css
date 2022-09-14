@@ -1,18 +1,11 @@
-.content-container {
-    padding: 10%;
-    height: 100vh;
-    background-color: lightgrey;
-    font-size: 64px;
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
 }
-.left-panel {
-    background-color: lightyellow;
-}
-.middle-panel {
-    background-color: lightblue
-}
-.right-panel {
-    background-color: lightgreen;
-}
-.box {
-    border: 1px solid black;
-}
+
+.float-child {
+    width: 45%;
+    float: left;
+    padding: 20px;
+    
+}  
