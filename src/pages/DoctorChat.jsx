@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Grid, CircularProgress, Button } from '@mui/material';
+import { Grid, CircularProgress, Button, IconButton } from '@mui/material';
 import ChatBar from '../components/ChatBar.jsx';
 import ChatWindow from '../components/ChatWindow.jsx';
+import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
+import ExitDialog from '../components/ExitDialog.jsx';
+
 export default function DoctorChat(props) {
     const [loading, setLoading] = useState(true);
     const [userName, setUserName] = useState(null);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogOption, setDialogOption] = useState(false);
+    const navigate = useNavigate();
+
     useEffect(() => {
+        // Exit selected in dialog:
+        if (dialogOption) {
+            navigate('/payment');
+        }
+
         //Set up observer on user authentication
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -24,6 +37,17 @@ export default function DoctorChat(props) {
             }
         });
     });
+
+    const xButtonHandler = () => {
+        // Open dialog to end chat:
+        setDialogOpen((prev) => true);
+    };
+
+    const dialogCloseHandler = (value) => {
+        setDialogOpen((prev) => false);
+        setDialogOption((prev) => value);
+    };
+
     return loading ? (
         <Grid
             container
@@ -40,12 +64,18 @@ export default function DoctorChat(props) {
             sx={{ minHeight: '100vh', bgcolor: 'background.default' }}
             direction='column'
         >
-            <Grid item alignItems='center' xs={12} sx={{ minHeight: '80vh' }}>
+            <Grid container item justifyContent='flex-end'>
+                <IconButton onClick={xButtonHandler}>
+                    <CloseIcon fontSize='large' />
+                </IconButton>
+            </Grid>
+            <Grid item alignItems='center' xs={12} sx={{ minHeight: '72vh' }}>
                 <ChatWindow userName={'Kate'} />
             </Grid>
             <Grid item>
                 <ChatBar />
             </Grid>
+            <ExitDialog open={dialogOpen} onClose={dialogCloseHandler} />
         </Grid>
     ) : (
         <div>

@@ -37,7 +37,7 @@ export default function ChatBar(props) {
             direction='row'
             alignItems='center'
             justifyContent='flex-start'
-            spacing={5}
+            spacing={3}
         >
             <Grid item xs={8} sm={10} flexGrow='1'>
                 <TextField
