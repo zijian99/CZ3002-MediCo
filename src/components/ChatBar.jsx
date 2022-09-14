@@ -2,8 +2,17 @@ import React, { useState } from 'react';
 import { Grid, TextField, Button, IconButton } from '@mui/material';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 
+const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+const mic = new SpeechRecognition();
+
+mic.continuous = true;
+mic.interimResults = true;
+mic.lang = 'en-US';
+
 export default function ChatBar(props) {
     const [currentText, setCurrentText] = useState('');
+    const [micEnabled, setMicEnabled] = useState(false);
 
     const handleChange = (event) => {
         setCurrentText((currentText) => event.target.value);
@@ -27,8 +36,35 @@ export default function ChatBar(props) {
         // Send to database:
     };
 
-    const handleMic = () => {
-        // Change textfield state based on audio
+    const toggleMic = () => {
+        if (micEnabled) {
+            // Switch off mic:
+            setMicEnabled((prev) => false);
+            mic.stop();
+            mic.onend = () => {
+                console.log('Stopped Mic');
+            };
+        } else {
+            // Switch on mic:
+            setMicEnabled((prev) => true);
+            mic.start();
+            mic.onend = () => {
+                console.log('Continue listening');
+                mic.start();
+            };
+
+            mic.onresult = (event) => {
+                const transcript = Array.from(event.results)
+                    .map((result) => result[0])
+                    .map((result) => result.transcript)
+                    .join('');
+                console.log(transcript);
+                setCurrentText(transcript);
+                mic.onerror = (event) => {
+                    console.log(event.error);
+                };
+            };
+        }
     };
 
     return (
@@ -50,9 +86,15 @@ export default function ChatBar(props) {
                 />
             </Grid>
             <Grid item ml={1}>
-                <IconButton onClick={handleMic}>
-                    <KeyboardVoiceIcon fontSize='large' />
-                </IconButton>
+                {micEnabled ? (
+                    <IconButton onClick={toggleMic} sx={{ color: 'red' }}>
+                        <KeyboardVoiceIcon fontSize='large' />
+                    </IconButton>
+                ) : (
+                    <IconButton onClick={toggleMic}>
+                        <KeyboardVoiceIcon fontSize='large' />
+                    </IconButton>
+                )}
             </Grid>
             <Grid item ml={1}>
                 <Button variant='filled' size='large' onClick={handleSend}>
