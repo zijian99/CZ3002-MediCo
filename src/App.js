@@ -9,6 +9,10 @@ import DoctorChat from './pages/DoctorChat';
 import ProtectedPage from './pages/ProtectedPage';
 import DebugPage from './pages/DebugPage';
 import Selection from './pages/Selection';
+import Payment from './pages/PaymentPage';
+import CardPayment from './pages/CardPayment';
+import QRPage from './pages/QRPage';
+import AfterPayment from './pages/AfterPayment';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -80,6 +84,42 @@ function App() {
                         path='/selection'
                         element={
                             <Selection
+                                setLoggedIn={setLoggedIn}
+                                loggedIn={loggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/payment'
+                        element={
+                            <Payment
+                                setLoggedIn={setLoggedIn}
+                                loggedIn={loggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/qrcodepayment'
+                        element={
+                            <QRPage
+                                setLoggedIn={setLoggedIn}
+                                loggedIn={loggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/cardpayment'
+                        element={
+                            <CardPayment
+                                setLoggedIn={setLoggedIn}
+                                loggedIn={loggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path='/afterPayment'
+                        element={
+                            <AfterPayment
                                 setLoggedIn={setLoggedIn}
                                 loggedIn={loggedIn}
                             />
