@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}

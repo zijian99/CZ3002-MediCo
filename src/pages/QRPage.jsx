@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, CircularProgress, Button, IconButton,Typography } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import LoadingSpinner from '../components/LoadingSpinner';
 import qrcode from "../assets/qrcode_example.jpeg"
 const preventDefault = (event) => event.preventDefault();
 
 export default function QRPage() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     function navigateEndPayment() {
-      navigate('/afterPayment');
-      }
+      setIsLoading(true);
+      setTimeout(() => {
+      navigate('/afterPayment');}, 2000);
+    }
 
 	return(
             <div>
@@ -24,7 +28,15 @@ export default function QRPage() {
                 <br></br>
                 <Button variant="outlined" onClick={navigateEndPayment}>Payment Done</Button>
                 <br/>
-                
+                <div className={isLoading ? 'visible' : 'hidden'}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Typography>Processing to Checkout...... </Typography>
+                    <LoadingSpinner/>
+                </div>
               </div>
             </div>
     );
