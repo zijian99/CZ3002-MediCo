@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Button, IconButton } from '@mui/material';
+import {
+    Grid,
+    TextField,
+    Button,
+    IconButton,
+    Tooltip,
+    Typography,
+} from '@mui/material';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 
-const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-const mic = new SpeechRecognition();
-
-mic.continuous = true;
-mic.interimResults = true;
-mic.lang = 'en-US';
+// Initialize Mic:
+let mic;
+if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+    mic = new SpeechRecognition();
+    mic.continuous = true;
+    mic.interimResults = true;
+    mic.lang = 'en-US';
+} else {
+    mic = null;
+}
 
 export default function ChatBar(props) {
     const [currentText, setCurrentText] = useState('');
     const [micEnabled, setMicEnabled] = useState(false);
+    const [toolTipOpen, setToolTipOpen] = useState(false);
 
     const handleChange = (event) => {
         setCurrentText((currentText) => event.target.value);
@@ -37,6 +50,11 @@ export default function ChatBar(props) {
     };
 
     const toggleMic = () => {
+        if (mic === null) {
+            setToolTipOpen((prev) => !prev);
+            return;
+        }
+
         if (micEnabled) {
             // Switch off mic:
             setMicEnabled((prev) => false);
@@ -91,9 +109,24 @@ export default function ChatBar(props) {
                         <KeyboardVoiceIcon fontSize='large' />
                     </IconButton>
                 ) : (
-                    <IconButton onClick={toggleMic}>
-                        <KeyboardVoiceIcon fontSize='large' />
-                    </IconButton>
+                    <Tooltip
+                        open={toolTipOpen}
+                        onOpen={() => setToolTipOpen(true)}
+                        onClose={() => setToolTipOpen(false)}
+                        disableHoverListener={true}
+                        title={
+                            <Typography variant='h6'>
+                                Your browser does not support speech
+                                recognition!
+                            </Typography>
+                        }
+                        placement='top'
+                        arrow={true}
+                    >
+                        <IconButton onClick={toggleMic}>
+                            <KeyboardVoiceIcon fontSize='large' />
+                        </IconButton>
+                    </Tooltip>
                 )}
             </Grid>
             <Grid item ml={1}>

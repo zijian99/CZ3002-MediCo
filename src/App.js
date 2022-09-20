@@ -14,6 +14,13 @@ import CardPayment from './pages/CardPayment';
 import QRPage from './pages/QRPage';
 import AfterPayment from './pages/AfterPayment';
 
+let isFirefox;
+const userAgentString = navigator.userAgent;
+if (userAgentString.indexOf('Firefox') !== -1) {
+    isFirefox = true;
+}
+isFirefox = false;
+
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -56,10 +63,14 @@ function App() {
                     <Route
                         path='/doctorchat'
                         element={
-                            <DoctorChat
-                                loggedIn={loggedIn}
-                                setLoggedIn={setLoggedIn}
-                            />
+                            isFirefox ? (
+                                <Home />
+                            ) : (
+                                <DoctorChat
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            )
                         }
                     />
                     <Route
