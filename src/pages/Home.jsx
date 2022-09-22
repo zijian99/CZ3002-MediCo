@@ -65,10 +65,9 @@ useEffect(() => (window.onresize = updateSize), []);
                 onClick={() => navigate("/Login")}
                 sx={{
                     position:'absolute',
-                    top:'110%' ,
-                    bottom:'14%',
+                    left: '12%',
+                    top:'710px',
                     fontSize:'20px',
-                    left:'20%' , 
                     display: "flex",
                     backgroundColor:"darkslategray",
                     color:'white',
