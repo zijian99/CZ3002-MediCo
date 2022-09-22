@@ -107,13 +107,7 @@ export default function Navbar(props) {
 				  }}
 				color={"black"}
 				>
-				<Link
-					href={getLink(item)}
-					underline='none'
-					color="inherit"
-				>
 					{item}
-				</Link>
 			</Typography>
 		  	</Button>
 	  	))}
@@ -154,13 +148,7 @@ export default function Navbar(props) {
 							}}
 							color={"black"}
 						>
-							<Link
-								href={getLink(item)}
-								underline='none'
-								color="inherit"
-								>
-								{item}
-							</Link>
+							{item}
 						</Typography>
 					</Button>
 				))}
@@ -202,7 +190,7 @@ export default function Navbar(props) {
 				</Link>
 
 				<Link
-					href={"/"}
+					href={"/changepassword"}
 					underline='none'
 					color="inherit"
 				>

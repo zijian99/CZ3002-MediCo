@@ -1,10 +1,9 @@
-import React from "react";
-import { CardActionArea, Typography } from "@mui/material";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import logo from '../assets/symptom_declaration_image.jpg';
+
+import { useEffect, useState } from "react";
+import { Accordion , AccordionDetails , AccordionSummary ,Typography } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import logo from '../assets/AboutUsHeader.png';
 
 const teamNames = [
 	"Min Kabar Kyaw",
@@ -20,70 +19,61 @@ const text = "MediCo is a web application that connects patients and healthcare 
 
 export default function About() {
 	
+	const [expanded, setExpanded] = useState(false);
+
+	const handleChange = (panel) => (event, isExpanded) => {
+	  setExpanded(isExpanded ? panel : false);
+	};
+
+	const [size, setSize] = useState({x: window.innerWidth, y: window.innerHeight});
+	
+	const updateSize = () =>setSize({
+		  x: window.innerWidth,
+		  y: window.innerHeight
+		});
+
+	useEffect(() => (window.onresize = updateSize), []);
+
 	return (
-	<Card sx={{ maxWidth: 350 }}>
-      <CardContent>
-	  <Typography variant="h5">
-          About MediCo
-        </Typography>
-        <img src={logo} 
-             alt={'logo'}/>
-        <Typography variant="body2">
-          {text}
-        </Typography>
-      </CardContent>
-	  <br/>
-	  <br/>
+		<div>
+			<img src={logo} 
+             alt={'logo'}
+			 width={size.x}
+			 >
 
-	  <CardActionArea
-	  	onClick={teamNames.map((personName) => (
-		<Typography variant='h5' display='block' align='center'>
-			{personName}
-		</Typography>))}
-		>
-	  <CardContent>
-	  <Typography variant="h5">
-          About The Members
-        </Typography>
-      </CardContent>
-	  <CardMedia
-          component="img"
-          image={logo}
-          alt="logo"
-        />
-		</CardActionArea>
-    </Card>
-
-		/*<div className="pageContainer" 
-			sx={{
-				display: "block",
-				marginTop: 120,
-				justifyContent: "center",
-				alignItems: "center"}}>
-			<Typography
-				variant='h3'
-				display='block'
-				align='center'
-				sx={{ mt: 10, mb: 5 }}
+			 </img>
+		  <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+			<AccordionSummary
+			  expandIcon={<ExpandMoreIcon />}
+			  aria-controls="panel1bh-content"
+			  id="panel1bh-header"
 			>
-				About the Team
-			</Typography>
-			{teamNames.map((personName) => (
-				<Typography variant='h5' display='block' align='center'>
-					{personName}
-				</Typography>
-			))}
-
-			<Typography
-			variant='h3'
-			display='block'
-			align='center'
-			sx={{ mt: 10, mb: 5 }}>
+			  <Typography sx={{ width: '33%', flexShrink: 0}}>
 				About MediCo
-			</Typography>
-			<Typography  display='block' align='left'>
+			  </Typography>
+			</AccordionSummary>
+			<AccordionDetails>
+			  <Typography variant="h7">
 				{text}
-			</Typography>
-		</div>*/
-	);
+			  </Typography>
+			</AccordionDetails>
+		  </Accordion>
+
+		  <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+			<AccordionSummary
+			  expandIcon={<ExpandMoreIcon />}
+			  aria-controls="panel2bh-content"
+			  id="panel2bh-header"
+			>
+			  <Typography sx={{ width: '33%', flexShrink: 0 }}>About the Team</Typography>
+			</AccordionSummary>
+			<AccordionDetails>
+			{teamNames.map((personName) => (
+			<Typography key={personName} variant='h7' display='block' align='left'>
+				{personName}
+			</Typography>))}
+			</AccordionDetails>
+		  </Accordion>
+		</div>
+	  );
 }

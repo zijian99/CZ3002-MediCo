@@ -11,6 +11,7 @@ import DoctorChat from "./pages/DoctorChat";
 import ProtectedPage from "./pages/ProtectedPage";
 import DebugPage from "./pages/DebugPage";
 import Selection from "./pages/Selection";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -32,6 +33,9 @@ function App() {
         case "./pages/DoctorChat":
             Component = DoctorChat
             break
+        case "./pages/ChangePassword":
+            Component = ChangePassword
+            break
 		default:
 			Component = Home
 			break
@@ -51,7 +55,9 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Home loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                                />} />
                     <Route
                         path="/login"
                         element={
@@ -65,6 +71,15 @@ function App() {
                         path="/register"
                         element={
                             <Register
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/changepassword"
+                        element={
+                            <ChangePassword
                                 loggedIn={loggedIn}
                                 setLoggedIn={setLoggedIn}
                             />
