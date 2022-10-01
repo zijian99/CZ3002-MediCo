@@ -17,6 +17,7 @@ import Payment from './pages/PaymentPage';
 import CardPayment from './pages/CardPayment';
 import QRPage from './pages/QRPage';
 import AfterPayment from './pages/AfterPayment';
+import Position from './pages/Position';
 
 let isFirefox;
 const userAgentString = navigator.userAgent;
@@ -79,6 +80,7 @@ function App() {
                                 />
                             }
                         />
+                        <Route path='/FindGP' element={<Position />} />
                         <Route
                             path='/Register'
                             element={
@@ -117,7 +119,7 @@ function App() {
                             }
                         />
                         <Route
-                            path='/SymptomDelcation'
+                            path='/SymptomDeclaration'
                             element={<SymptomDeclaration />}
                         />
                         <Route
