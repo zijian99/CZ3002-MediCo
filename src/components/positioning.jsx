@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export default function Position() {
     const [postal, setPostal] = useState("");
-    const [coordinates, setCoordinates] = useState({
+    const [userCoordinates, setUserCoordinates] = useState({
         latitude: null,
         longitude: null,
     });
@@ -45,16 +45,16 @@ export default function Position() {
         if (coord == -1) {
             document.getElementById("locationString").innerHTML =
                 "Invalid input. Please re-enter";
-            console.log("illegal input");
             return;
         } else if (coord == 0) {
             document.getElementById("locationString").innerHTML =
                 "Your input does not match any location.";
-            console.log("no match");
             return;
         }
-		coordinates.latitude = coord[0];
-		coordinates.longitude = coord[1];
+        setUserCoordinates({
+            latitude: coord[0],
+            longitude: coord[1],
+        })
         displayLocation();
         displayGP(getNearestGP());
     }
@@ -87,8 +87,8 @@ export default function Position() {
         let chosenIndex = -1;
         for (let i = 0; i < GPData.length; i++) {
             let newDistance = getDistanceFromLatLonInKm(
-                coordinates.latitude,
-                coordinates.longitude,
+                userCoordinates.latitude,
+                userCoordinates.longitude,
                 GPData[i].LATITUDE,
                 GPData[i].LONGITUDE
             );
@@ -102,9 +102,9 @@ export default function Position() {
 
     function getUserLocation() {
         navigator.geolocation.getCurrentPosition(function (position) {
-            setCoordinates({
-                longitude: position.coords.longitude,
-                latitude: position.coords.latitude,
+            setUserCoordinates({
+                latitude: position.coords.latitude.toFixed(6),
+                longitude: position.coords.longitude.toFixed(6),
             });
         });
     }
@@ -112,9 +112,9 @@ export default function Position() {
     function displayLocation() {
         document.getElementById("locationString").innerHTML =
             "Your location: Longitude: " +
-            coordinates.longitude +
+            Number(userCoordinates.longitude).toFixed(6) +
             ", Latitude: " +
-            coordinates.latitude;
+            Number(userCoordinates.latitude).toFixed(6);
     }
 
     function displayGP(GPIndex) {
@@ -157,11 +157,11 @@ export default function Position() {
         return null;
     }
 
-    function getDistanceFromLatLonInKm(rawlat1, rawlon1, rawlat2, rawlon2) {
-        const lat1 = Number(rawlat1).toFixed(6);
-        const lon1 = Number(rawlon1).toFixed(6);
-        const lat2 = Number(rawlat2).toFixed(6);
-        const lon2 = Number(rawlon2).toFixed(6);
+    function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        lat1 = Number(lat1).toFixed(6);
+        lon1 = Number(lon1).toFixed(6);
+        lat2 = Number(lat2).toFixed(6);
+        lon2 = Number(lon2).toFixed(6);
         var R = 6371; // Radius of the earth in km
         var dLat = deg2rad(lat2 - lat1);
         var dLon = deg2rad(lon2 - lon1);
