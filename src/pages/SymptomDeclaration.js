@@ -1,5 +1,5 @@
 import { BodyComponent } from 'reactjs-human-body';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -8,7 +8,7 @@ import { ClassNames } from '../css/Symptom.css';
 import { useNavigate } from 'react-router-dom';
 export default function SymptomDeclaration() {
     const navigate = useNavigate();
-    const [bodyState, setBodyState] = useState({
+    const [bodyState] = useState({
         head: {
             show: true,
             selected: false,
@@ -86,47 +86,199 @@ export default function SymptomDeclaration() {
     //   }, [bodyState]);
 
     const [pain, setPain] = useState(false);
+    const [numb, setNumb] = useState(false);
+    const [Pressure, setPressure] = useState(false);
+    const [Burning, setBurning] = useState(false);
+    const [Tightness, setTightness] = useState(false);
+    const [Fatigue, setFatigue] = useState(false);
+    const [Trembling, setTrembling] = useState(false);
+    const [Tension, setTension] = useState(false);
+    const [checked, setChecked] = React.useState([true, false]);
+
     const togglePain = () => {
         // 👇️ passed function to setState
         setPain((current) => !current);
     };
 
-    const [numb, setNumb] = useState(false);
     const toggleNumb = () => {
         // 👇️ passed function to setState
         setNumb((current) => !current);
     };
 
-    const [checked, setChecked] = React.useState([true, false]);
-
-    const handleChange1 = (event) => {
-        setChecked([event.target.checked, event.target.checked]);
-        setPain((current) => !current);
-        setNumb((current) => !current);
+    const togglePressure = () => {
+        // 👇️ passed function to setState
+        setPressure((current) => !current);
     };
 
-    const handleChange2 = (event) => {
-        setChecked([event.target.checked, checked[1]]);
+    const toggleBurning = () => {
+        // 👇️ passed function to setState
+        setBurning((current) => !current);
+    };
+
+    const toggleTightness = () => {
+        // 👇️ passed function to setState
+        setTightness((current) => !current);
+    };
+
+    const toggleFatigue = () => {
+        // 👇️ passed function to setState
+        setFatigue((current) => !current);
+    };
+
+    const toggleTrembling = () => {
+        // 👇️ passed function to setState
+        setTrembling((current) => !current);
+    };
+
+    const toggleTension = () => {
+        // 👇️ passed function to setState
+        setTension((current) => !current);
+    };
+
+    // const handleChangeAll = (event) => {
+    //     setChecked([event.target.checked, event.target.checked]);
+    // };
+
+    const handleChangePain = (event) => {
+        setChecked([event.target.checked]);
         togglePain();
     };
 
-    const handleChange3 = (event) => {
+    const handleChangeNumb = (event) => {
         setChecked([checked[0], event.target.checked]);
         toggleNumb();
+    };
+    const handleChangePressure = (event) => {
+        setChecked([checked[0], checked[0], event.target.checked]);
+        togglePressure();
+    };
+
+    const handleChangeBurning = (event) => {
+        setChecked([checked[0], checked[0], checked[0], event.target.checked]);
+        toggleBurning();
+    };
+    const handleChangeTightness = (event) => {
+        setChecked([
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            event.target.checked,
+        ]);
+        toggleTightness();
+    };
+
+    const handleChangeFatigue = (event) => {
+        setChecked([
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            event.target.checked,
+        ]);
+        toggleFatigue();
+    };
+    const handleChangeTrembling = (event) => {
+        setChecked([
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            event.target.checked,
+        ]);
+        toggleTrembling();
+    };
+
+    const handleChangeTension = (event) => {
+        setChecked([
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            checked[0],
+            event.target.checked,
+        ]);
+        toggleTension();
     };
 
     const children = (
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
             <FormControlLabel
-                label='Numb'
+                label='Pain'
                 control={
-                    <Checkbox checked={checked[1]} onChange={handleChange2} />
+                    <Checkbox
+                        checked={checked[0]}
+                        onChange={handleChangePain}
+                    />
                 }
             />
             <FormControlLabel
-                label='Pain'
+                label='Numb'
                 control={
-                    <Checkbox checked={checked[1]} onChange={handleChange3} />
+                    <Checkbox
+                        checked={checked[1]}
+                        onChange={handleChangeNumb}
+                    />
+                }
+            />
+            <FormControlLabel
+                label='Pressure'
+                control={
+                    <Checkbox
+                        checked={checked[2]}
+                        onChange={handleChangePressure}
+                    />
+                }
+            />
+
+            <FormControlLabel
+                label='Burning'
+                control={
+                    <Checkbox
+                        checked={checked[3]}
+                        onChange={handleChangeBurning}
+                    />
+                }
+            />
+            <FormControlLabel
+                label='Tightness'
+                control={
+                    <Checkbox
+                        checked={checked[4]}
+                        onChange={handleChangeTightness}
+                    />
+                }
+            />
+            <FormControlLabel
+                label='Fatigue'
+                control={
+                    <Checkbox
+                        checked={checked[5]}
+                        onChange={handleChangeFatigue}
+                    />
+                }
+            />
+            <FormControlLabel
+                label='Trembling'
+                control={
+                    <Checkbox
+                        checked={checked[6]}
+                        onChange={handleChangeTrembling}
+                    />
+                }
+            />
+            <FormControlLabel
+                label='Tension'
+                control={
+                    <Checkbox
+                        checked={checked[7]}
+                        onChange={handleChangeTension}
+                    />
                 }
             />
         </Box>
@@ -134,59 +286,70 @@ export default function SymptomDeclaration() {
 
     function selectedBodyParts() {
         var head =
-            bodyState.head.selected === true ? ' ' + bodyState.head.name : '';
+            bodyState.head.selected === true
+                ? ' ' + bodyState.head.name + '; '
+                : '';
         var left_shoulder =
             bodyState.left_shoulder.selected === true
-                ? ' ' + bodyState.left_shoulder.name
+                ? ' ' + bodyState.left_shoulder.name + '; '
                 : '';
         var right_shoulder =
             bodyState.right_shoulder.selected === true
-                ? ' ' + bodyState.right_shoulder.name
+                ? ' ' + bodyState.right_shoulder.name + '; '
                 : '';
         var left_arm =
             bodyState.left_arm.selected === true
-                ? ' ' + bodyState.left_arm.name
+                ? ' ' + bodyState.left_arm.name + '; '
                 : '';
         var right_arm =
             bodyState.right_arm.selected === true
-                ? ' ' + bodyState.right_arm.name
+                ? ' ' + bodyState.right_arm.name + '; '
                 : '';
         var chest =
-            bodyState.chest.selected === true ? ' ' + bodyState.chest.name : '';
+            bodyState.chest.selected === true
+                ? ' ' + bodyState.chest.name + '; '
+                : '';
         var left_hand =
             bodyState.left_hand.selected === true
-                ? ' ' + bodyState.left_hand.name
+                ? ' ' + bodyState.left_hand.name + '; '
                 : '';
         var right_hand =
             bodyState.right_hand.selected === true
-                ? ' ' + bodyState.right_hand.name
+                ? ' ' + bodyState.right_hand.name + '; '
                 : '';
 
         var left_leg =
             bodyState.left_leg.selected === true
-                ? ' ' + bodyState.left_leg.name
+                ? ' ' + bodyState.left_leg.name + '; '
                 : '';
         var right_leg =
             bodyState.right_leg.selected === true
-                ? ' ' + bodyState.right_leg.name
+                ? ' ' + bodyState.right_leg.name + '; '
                 : '';
 
         var left_foot =
             bodyState.left_foot.selected === true
-                ? ' ' + bodyState.left_foot.name
+                ? ' ' + bodyState.left_foot.name + '; '
                 : '';
         var right_foot =
             bodyState.right_foot.selected === true
-                ? ' ' + bodyState.right_foot.name
+                ? ' ' + bodyState.right_foot.name + '; '
                 : '';
         var stomach =
             bodyState.stomach.selected === true
-                ? ' ' + bodyState.stomach.name
+                ? ' ' + bodyState.stomach.name + '; '
                 : '';
         //Sympthom
-        var painStatus = pain === true ? ' Pain ' : '';
+        var painStatus = pain === true ? ' Pain ' + '; ' : '';
 
-        var numbStatus = numb === true ? ' Numb ' : '';
+        var numbStatus = numb === true ? ' Numb ' + '; ' : '';
+
+        var PressureStatus = Pressure === true ? ' Pressure;' : '';
+        var BurningStatus = Burning === true ? ' Burning;' : '';
+        var TightnessStatus = Tightness === true ? ' Tightness;' : '';
+        var FatigueStatus = Fatigue === true ? ' Fatigue;' : '';
+        var TremblingStatus = Trembling === true ? ' Trembling;' : '';
+        var TensionStatus = Tension === true ? ' Tension;' : '';
 
         var patientCodition = JSON.stringify(
             'you have selected body part(s): ' +
@@ -205,11 +368,17 @@ export default function SymptomDeclaration() {
                 right_foot +
                 ' and have symptom(s) of ' +
                 painStatus +
-                numbStatus
+                numbStatus +
+                PressureStatus +
+                BurningStatus +
+                TightnessStatus +
+                FatigueStatus +
+                TremblingStatus +
+                TensionStatus
         );
         // Add to database
         window.alert(patientCodition);
-        navigate('/doctorchat');
+        //navigate('/doctorchat');
     }
 
     return (
@@ -223,17 +392,18 @@ export default function SymptomDeclaration() {
                         <BodyComponent partsInput={bodyState} />
                     </div>
                     <div class='float-child'>
-                        <FormControlLabel
-                            label='Both'
+                        {/* <FormControlLabel
+                            label='Parent'
                             control={
                                 <Checkbox
                                     checked={checked[0] && checked[1]}
                                     indeterminate={checked[0] !== checked[1]}
-                                    onChange={handleChange1}
+                                    onChange={handleChangeAll}
                                 />
                             }
-                        />
+                        /> */}
                         {children}
+
                         <Button
                             variant='contained'
                             onClick={() => {
