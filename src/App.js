@@ -17,6 +17,7 @@ import Payment from './pages/PaymentPage';
 import CardPayment from './pages/CardPayment';
 import QRPage from './pages/QRPage';
 import AfterPayment from './pages/AfterPayment';
+import Position from './pages/Position';
 //import Position from './pages/Position';
 
 let isFirefox;
@@ -75,6 +76,15 @@ function App() {
                             path='/Login'
                             element={
                                 <Login
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            }
+                        />
+                        <Route
+                            path='/FindGP'
+                            element={
+                                <Position
                                     loggedIn={loggedIn}
                                     setLoggedIn={setLoggedIn}
                                 />
