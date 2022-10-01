@@ -1,0 +1,146 @@
+[
+ {
+   "Name": "Ang Mo Kio Polyclinic (NHG)",
+   "Address": "Block 723 Ang Mo Kio Avenue 8 #01-4136",
+   "Postal": 569666,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.3743245905856",
+   "LONGITUDE": "103.845677779279"
+ },
+ {
+   "Name": "Bedok Polyclinic (Singhealth)",
+   "Address": "Block 212 Bedok North Street 1 #03-147",
+   "Postal": 469662,
+   "Contact": "6243-6740 (General), 6643-6969 (Appt)",
+   "LONGITUDE": "103.93202952768299",
+   "LONGTITUDE": "103.93202952768299"
+ },
+ {
+   "Name": "Bukit Batok Polyclinic (NHG)",
+   "Address": "50 Bukit Batok West Avenue 3",
+   "Postal": 659164,
+   "Contact": "6355-3000",
+    "LONGITUDE": "103.74790615420099",
+    "LONGTITUDE": "103.74790615420099"
+ },
+ {
+   "Name": "Bukit Merah Polyclinic (Singhealth)",
+   "Address": "Block 163 Bukit Merah Central #04-3565",
+   "Postal": 150163,
+   "Contact": "6271-3911 (General), 6643-6969 (Appt)",
+    "LONGITUDE": "103.81705152281602",
+    "LONGTITUDE": "103.81705152281602"
+ },
+ {
+   "Name": "Choa Chu Kang Polyclinic (NHG)",
+   "Address": "2 Teck Whye Crescent",
+   "Postal": 688846,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.38234139419021",
+   "LONGITUDE": "103.750776869899"
+ },
+ {
+   "Name": "Clementi Polyclinic (NHG)",
+   "Address": "Block 451 Clementi Avenue 3 #02-307",
+   "Postal": 120451,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.3124829847626398",
+   "LONGITUDE": "103.76547675686301"
+ },
+ {
+   "Name": "Geylang Polyclinic (Singhealth)",
+   "Address": "21 Geylang East Central",
+   "Postal": 389707,
+   "Contact": "6842-2440 (General), 6643-6969 (Appt)",
+   "LATITUDE": "1.3194936558195702",
+   "LONGITUDE": "103.88716604162201"
+ },
+ {
+   "Name": "Hougang Polyclinic (NHG)",
+   "Address": "89 Hougang Avenue 4",
+   "Postal": 538829,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.36990683865396",
+   "LONGITUDE": "103.88900146962798"
+ },
+ {
+   "Name": "Jurong Polyclinic (NHG)",
+   "Address": "190 Jurong East Avenue 1",
+   "Postal": 609788,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.3497197966376497",
+   "LONGITUDE": "103.730717863166"
+ },
+ {
+   "Name": "Marine Parade Polyclinic (Singhealth)",
+   "Address": "Block 80 Marine Parade #01-792",
+   "Postal": 440080,
+   "Contact": "6345-0049 (General), 6643-6969 (Appt)",
+   "LATITUDE": "1.30222617643541",
+    "LONGITUDE": "103.90788002740601"
+ },
+ {
+   "Name": "c (Singhealth)",
+   "Address": "No.3 Second Hospital Avenue",
+   "Postal": 168937,
+   "Contact": "6435-3980 (General), 6643-6969 (Appt)",
+       "LATITUDE": "1.27937281065484",
+   "LONGITUDE": "103.838387502631"
+ },
+ {
+   "Name": "Pasir Ris Polyclinic (Singhealth)",
+   "Address": "1 Pasir Ris Drive 4 #01-11",
+   "Postal": 519457,
+   "Contact": "6585-5390 (General), 6643-6969 (Appt)",
+   "LATITUDE": "1.36858695162237",
+   "LONGITUDE": "103.95920469576299"
+ },
+ {
+   "Name": "Queenstown Polyclinic (Singhealth)",
+   "Address": "580 Stirling Road",
+   "Postal": 148958,
+   "Contact": "6471-9530 (General), 6643-6969 (Appt)",
+   "LATITUDE": "1.2984754739197901",
+   "LONGITUDE": "103.800957796297"
+ },
+ {
+   "Name": "Sengkang Polyclinic (Singhealth)",
+   "Address": "2 Sengkang Square #01-06 Sengkang Community Hub",
+   "Postal": 545025,
+   "Contact": "6315-3500 (General), 6643-6969 (Appt)",
+   "LATITUDE": "1.3926917428232",
+   "LONGITUDE": "103.894328052934"
+ },
+ {
+   "Name": "Tampines Polyclinic (Singhealth)",
+   "Address": "1 Tampines Street 41",
+   "Postal": 529203,
+   "Contact": "6786-4070 (General), 6643-6969 (Appt)",
+   "LATITUDE": "1.3573011364707899",
+   "LONGITUDE": "103.94590547598301"
+ },
+ {
+   "Name": "Toa Payoh Polyclinic (NHG)",
+   "Address": "Block 2003 Lorong 8 Toa Payoh",
+   "Postal": 319260,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.33449729734045",
+   "LONGITUDE": "103.858989057136"
+ },
+ {
+   "Name": "Woodlands Polyclinic (NHG)",
+   "Address": "10 Woodlands Street 31",
+   "Postal": 738579,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.4308932282828102",
+   "LONGITUDE": "103.775212914803"
+ },
+ {
+   "Name": "Yishun Polyclinic (NHG)",
+   "Address": "100, Yishun Central",
+   "Postal": 768898,
+   "Contact": "6355-3000",
+   "LATITUDE": "1.4303585199241697",
+   "LONGITUDE": "103.83919069893899"
+ }
+]
