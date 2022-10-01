@@ -12,6 +12,7 @@ import ProtectedPage from "./pages/ProtectedPage";
 import DebugPage from "./pages/DebugPage";
 import Selection from "./pages/Selection";
 import ChangePassword from "./pages/ChangePassword";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -35,6 +36,9 @@ function App() {
             break
         case "./pages/ChangePassword":
             Component = ChangePassword
+            break
+        case "./pages/EditProfile":
+            Component = EditProfile
             break
 		default:
 			Component = Home
@@ -80,6 +84,15 @@ function App() {
                         path="/changepassword"
                         element={
                             <ChangePassword
+                                loggedIn={loggedIn}
+                                setLoggedIn={setLoggedIn}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/editprofile"
+                        element={
+                            <EditProfile
                                 loggedIn={loggedIn}
                                 setLoggedIn={setLoggedIn}
                             />

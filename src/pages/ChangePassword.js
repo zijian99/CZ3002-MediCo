@@ -57,10 +57,15 @@ export default function ChangePassword(props) {
       setMessage(false);
       setFormat(false);
 
-      if(newpassword==""){
+      if(newpassword===""){
         setFormat(true);
         return;
       }
+      if(newpassword.length <6){
+        setFormat(true);
+        return;
+      }
+
 
       const user = getAuth().currentUser;
       const email = user.email;
@@ -135,7 +140,7 @@ export default function ChangePassword(props) {
           display: format ? '' : 'none',
         }}>
         <Alert severity="error">
-          New Password cannot be empty!!
+          New Password must have at least 6 characters!!
         </Alert>
         </div>
       );

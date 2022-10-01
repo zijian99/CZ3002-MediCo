@@ -179,7 +179,7 @@ export default function Navbar(props) {
                 onClose={handleClose}
             >
 				<Link
-					href={"/"}
+					href={"/editprofile"}
 					underline='none'
 					color="inherit"
 				>
