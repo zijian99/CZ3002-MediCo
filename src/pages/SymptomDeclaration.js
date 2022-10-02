@@ -6,6 +6,10 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { ClassNames } from '../css/Symptom.css';
 import { useNavigate } from 'react-router-dom';
+
+import {createConsultHistory2} from "../firestore functions";
+import {serverTimestamp} from "firebase/firestore";
+
 export default function SymptomDeclaration() {
     const navigate = useNavigate();
     const [bodyState] = useState({
@@ -376,8 +380,13 @@ export default function SymptomDeclaration() {
                 TremblingStatus +
                 TensionStatus
         );
-        // Add to database
+        /* --------------Add to database----------------*/
+        /*--------------where can I find the userid?---------*/
+        
+        createConsultHistory2(uid, serverTimestamp(), patientCodition);
         window.alert(patientCodition);
+        
+        
         //navigate('/doctorchat');
     }
 
