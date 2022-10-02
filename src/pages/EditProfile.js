@@ -4,7 +4,7 @@ import {Sheet} from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import { auth , db} from "../firebase";
 import {onAuthStateChanged , updateEmail , getAuth , EmailAuthProvider , reauthenticateWithCredential} from "firebase/auth";
-import { doc, Firestore, getDoc , updateDoc} from "firebase/firestore";
+import { doc, getDoc , updateDoc} from "firebase/firestore";
 
 
 
@@ -18,7 +18,6 @@ export default function EditProfile(props) {
 
 
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const [namemessage, setNameMessage] = useState(false);
   const [emailvmessage, setEmailVMessage] = useState(false);
@@ -43,78 +42,135 @@ export default function EditProfile(props) {
                 // User is signed in
                 //console.log("Authorization granted.");
                 props.setLoggedIn(true);
-				        setLoading(false);
+				        setLoading(false);     
                 getUser();
+            
             } else {
                 // User is signed out
                 //console.log("Cannot access edit page");
                 props.setLoggedIn(false);
-				setLoading(false);
+				        setLoading(false);
             }
         });
-    });
+    },[]);
     
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
           console.log('Pressed on Enter Key');
-        
-          
+          savingInfo(name , email , postalcode , age , gender , curpassword);
+        }
+      };
+
+      async function getUser() {
+        //get the user's current information
+        const user = getAuth().currentUser;
+        const docRef = doc(db, "Users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setEmail(user.email);
+          //console.log(user.uid);
+          setName(docSnap.data().username);
+          setPostalCode(docSnap.data().postal_code);
+          setAge(docSnap.data().age);
+          } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
         }
       };
 
       
     
 
-    const savingInfo = (name , email , postalcode , age , gender) => {
+    async function savingInfo (name , email , postalcode , age , gender , curpassword) {
         setNameMessage(false);
         setEmailMessage(false);
+        setEmailVMessage(false);
         setPostalCodeMessage(false);
         setAgeMessage(false);
+        setMessage(false);
+        setError(false);
+        setFormat(false);
+      
         //do validation of information
 
-        if(name==="" || email==="" || postalcode==="" || age==="" || gender==="")
-            setFormat(true);
+        console.log("-----NEW INFO-------")
+        console.log("name:" , name)
+        console.log("email:" , email)
+        console.log("postalcode:" , postalcode)
+        console.log("age:" , age)
+
+        if(name==="" || email==="" || postalcode==="" || age==="" || gender==="" || curpassword===""){
+          setFormat(true);
+          console.log("Error: empty fields");
+          return
+        }
         
-        //check if new username is in the db
-
         //check if check if email format is correct
-        if(!isValidEmail)
-            setEmailVMessage(true);
+        if(!isValidEmail(email)){
+          setEmailVMessage(true);
+          console.log("Error: invalid email format");
+          return
+        }
 
-        //check if email alr in db
-
+       
         //check if postalcode valid
-        if(!Number(postalcode)||(postalcode.toString().length!=6))
-            setPostalCodeMessage(true);
+        if(!Number(postalcode)){
+          setPostalCodeMessage(true);
+          console.log("Error: invalid postal code format");
+          return
+        }
+     
+        if(postalcode.length!=6){
+          setPostalCodeMessage(true);
+          console.log("Error: postal code length too short");
+          return
+        }
+
 
         //check if valid age
-        if(age<=0)
-            setAgeMessage(true);
+        if(age<=0){
+          setAgeMessage(true);
+          console.log("Error: Age out of range");
+          return
+        }
     
-        try{
-            updatingEmail(email , curpassword);
-            updateFirebaseInfo(name , email, postalcode , age , gender);
-            //setMessage(true);
+        console.log("agemessage: " ,agemessage , " postalcodemessage: " , postalcodemessage , " email: " , emailvmessage , " format: " , format);
+        //if all the format and checks are passed
+        if(agemessage===false && postalcodemessage===false && emailvmessage===false && format===false){
+          try{
+            //if email is check if email is already in use, if not.. update into the firestore authentication
+            await updatingEmail(email , curpassword);
         }
         catch{
             setError(true);
         }
+        }
+        
 
     };
 
-    async function updateFirebaseInfo(name , email , postalcode , age , newgender){
+    async function updateFirebaseInfo(name , newemail , postalcode , age , newgender){
       const user = getAuth().currentUser;
       const docRef = doc(db, "Users", user.uid);
 
-      await updateDoc(docRef, {
-        username: name ,
-        email: email , 
-        postal_code: postalcode ,
-        age: age ,
-        gender: newgender
-      })
-      console.log("i think we updated?");
+        if(emailmessage===false){
+          await updateDoc(docRef , {email: newemail})
+          console.log("updated email into firestore");
+        }
+        else if (emailmessage===true){
+          console.log("cant update email");
+          return
+        }
+
+        await updateDoc(docRef, {
+          username: name , 
+          postal_code: postalcode ,
+          age: age ,
+          gender: newgender
+        })
+        console.log("updated other info into firestore");
+        setMessage(true);
         
     }
 
@@ -130,22 +186,25 @@ export default function EditProfile(props) {
         reauthenticateWithCredential(user, cred).then(() => {
           // User sucessful re-authenticated.
           console.log("Reauthenticated");
-          console.log("old email: ",user.email)
+          console.log("old email: ", user.email)
           console.log("new email" , newemail);
   
           //update authenticated user's password
           updateEmail(user , newemail).then(() => {
-          console.log("Successful email change");
+          //successfully updated into firestore authentication
+          console.log("Successful email change in authentication");
+          setEmailMessage(false);
+          updateFirebaseInfo(name , newemail , postalcode , age , gender)
           // Update successful.
   
           }).catch((error) => {
           // An error ocurred when updating email
-          console.log("Unsuccessful email change");
+          console.log("Unsuccessful email change in authentication");
+          setEmailMessage(true);
         })
   
         }).catch((error) => {
           // An error ocurred
-          // ...
           setError(true);
           console.log("Failed re-authentication");
           
@@ -153,7 +212,7 @@ export default function EditProfile(props) {
 
     }
 
-    async function getUser(){
+    /*async function getUser(){
         const user = getAuth().currentUser;
 
         //get the user's current information
@@ -172,7 +231,7 @@ export default function EditProfile(props) {
         }
 
 
-    }
+    }*/
 
 
     
@@ -300,7 +359,6 @@ export default function EditProfile(props) {
         );
     };
 
-
     
     return loading ? (
     <Grid
@@ -314,6 +372,7 @@ export default function EditProfile(props) {
       <CircularProgress size={100} />
     </Grid>
     ): (
+
     <Sheet
         sx={{
             maxWidth: 400,
@@ -334,13 +393,10 @@ export default function EditProfile(props) {
         </div>
 
         <TextField
-             id="outlined-name"
-             type="text"
+             id="outlined-required"
              label="UserName"
-             defaultValue={name}
-             onChange={(event) => {
-                 setName(event.target.value);
-             }}
+             defaultValue = {name}
+             onChange={event => setName(event.target.value)}
         />
 
         <TextField
@@ -348,7 +404,8 @@ export default function EditProfile(props) {
             type="email"
             label="Email"
             defaultValue={email}
-            onChange={(event) => {setEmail(event.target.value);}}
+            onChange={(event) => {
+              setEmail(event.target.value);}}
         />
         
         <TextField
@@ -364,8 +421,8 @@ export default function EditProfile(props) {
 		    <TextField
             id="outlined-age"
             type="number"
-            defaultValue={age}
             label="Age"
+            defaultValue={age}
 			      onChange={(event) => {
                 setAge(event.target.value);
             }}
@@ -400,7 +457,7 @@ export default function EditProfile(props) {
         sx={{
             mt: 10, // margin top
         }}
-        onClick={() => savingInfo(name , email , postalcode , age , gender)}
+        onClick={() => savingInfo(name , email , postalcode , age , gender , curpassword)}
         >
         Save
         </button>  
