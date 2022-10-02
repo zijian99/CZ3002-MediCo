@@ -56,7 +56,7 @@ export default function DoctorChat(props) {
         /*---------------store msg into firestore when doc/patient hits enter---------*/
         // if (uDocRef != null && dDocRef != null){
         //     if (sent msg){
-        //         createChatHistory(uDocRef, dDocRef, timestamp, sender, msg);
+        //         createChatHistory(uDocRef, dDocRef, serverTimestamp(), sender, msg);
         //     }
         // }
     };
