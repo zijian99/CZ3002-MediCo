@@ -8,12 +8,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import ExitDialog from '../components/ExitDialog.jsx';
 
+import {createConsultHistory1, createChatHistory} from '../firestore functions.js';
+import {serverTimestamp} from "firebase/firestore";
+
 export default function DoctorChat(props) {
     const [loading, setLoading] = useState(true);
     const [userName, setUserName] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogOption, setDialogOption] = useState(false);
     const navigate = useNavigate();
+    
+    const {uDocRef, dDocRef} = null;
 
     useEffect(() => {
         // Exit selected in dialog:
@@ -41,11 +46,25 @@ export default function DoctorChat(props) {
     const xButtonHandler = () => {
         // Open dialog to end chat:
         setDialogOpen((prev) => true);
+        
+        /*----------------------Create new consult history document-----------------------*/
+        /*-----------------------------Where to find doctor ID?---------------------------*/
+        const timestamp = serverTimestamp();
+        const docName = "Q4YOpBF1nrh47yGuh0UQ";
+        const {uDocRef, dDocRef} = createConsultHistory1(userName, docName, timestamp);
+
+        /*---------------store msg into firestore when doc/patient hits enter---------*/
+        // if (uDocRef != null && dDocRef != null){
+        //     if (sent msg){
+        //         createChatHistory(uDocRef, dDocRef, timestamp, sender, msg);
+        //     }
+        // }
     };
 
     const dialogCloseHandler = (value) => {
         setDialogOpen((prev) => false);
         setDialogOption((prev) => value);
+        const {uDocRef, dDocRef} = null;
     };
 
     return loading ? (
