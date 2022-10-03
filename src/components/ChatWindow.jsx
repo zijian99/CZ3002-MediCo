@@ -110,7 +110,7 @@ export default function ChatWindow(props) {
     return (
         <Virtuoso
             ref={virtuoso}
-            style={{ minHeight: '50vh', flexGrow: 1, display: 'flex' }}
+            style={{ minHeight: 'inherit', flexGrow: 1, display: 'flex' }}
             data={virtualList}
             initialTopMostItemIndex={virtualList.length - 1}
             followOutput='smooth'

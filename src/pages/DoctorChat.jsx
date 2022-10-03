@@ -22,7 +22,7 @@ export default function DoctorChat(props) {
     const [dialogOption, setDialogOption] = useState(false);
     const navigate = useNavigate();
     const [docRef, setDocRef] = useState(null);
-
+    document.overflow = 'hidden';
     useEffect(() => {
         // Exit selected in dialog:
         if (dialogOption) {
@@ -86,14 +86,14 @@ export default function DoctorChat(props) {
             direction='column'
             alignItems='center'
             justifyContent='center'
-            sx={{ minHeight: '90vh' }}
+            sx={{ minHeight: '90vh', marginTop: '75px' }}
         >
             <CircularProgress size={60} />
         </Grid>
     ) : props.loggedIn && !loading ? (
         <Grid
             container
-            sx={{ minHeight: '100vh', bgcolor: 'background.default' }}
+            sx={{ bgcolor: 'background.default' }}
             direction='column'
         >
             <Grid container item justifyContent='flex-end'>
@@ -101,14 +101,19 @@ export default function DoctorChat(props) {
                     <CloseIcon fontSize='large' />
                 </IconButton>
             </Grid>
-            <Grid item alignItems='center' xs={12} sx={{ minHeight: '72vh' }}>
+            <Grid
+                item
+                alignItems='center'
+                xs={12}
+                sx={{ minHeight: '71vh', flexGrow: 1 }}
+            >
                 <ChatWindow
                     userID={userID}
                     docRef={docRef}
                     userName={userName}
                 />
             </Grid>
-            <Grid item>
+            <Grid item container alignItems='flex-end'>
                 <ChatBar docRef={docRef} userID={userID} userName={userName} />
             </Grid>
             <ExitDialog open={dialogOpen} onClose={dialogCloseHandler} />

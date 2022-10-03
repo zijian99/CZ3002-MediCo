@@ -106,8 +106,7 @@ export default function ChatBar(props) {
             container
             direction='row'
             alignItems='center'
-            justifyContent='center'
-            spacing={3}
+            justifyContent='space-around'
         >
             <Grid item xs={8} sm={10} flexGrow='1'>
                 <TextField
@@ -146,7 +145,12 @@ export default function ChatBar(props) {
                 )}
             </Grid>
             <Grid item ml={1}>
-                <Button variant='filled' size='large' onClick={handleSend}>
+                <Button
+                    variant='contained'
+                    size='large'
+                    onClick={handleSend}
+                    sx={{ bgcolor: 'dodgerblue' }}
+                >
                     SEND
                 </Button>
             </Grid>
