@@ -54,7 +54,12 @@ export default function Selection(props) {
         </Grid>
     ) : props.loggedIn ? (
         <div>
-            <Grid container alignItems='center' justifyContent='center'>
+            <Grid
+                container
+                alignItems='center'
+                justifyContent='center'
+                marginTop='10vh'
+            >
                 <Fade in={true} timeout={2000}>
                     <Grid container alignItems='center' justifyContent='center'>
                         <Grid
