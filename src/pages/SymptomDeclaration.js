@@ -7,10 +7,23 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { ClassNames } from '../css/Symptom.css';
 import { useNavigate } from 'react-router-dom';
 
-import {createConsultHistory2} from "../firestore functions";
-import {serverTimestamp} from "firebase/firestore";
+import { createConsultHistory2 } from '../firestore functions';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function SymptomDeclaration() {
+    const uid = '';
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in
+
+            uid = user.uid;
+            console.log('Authorization granted to ' + uid);
+        } else {
+            // User is signed out
+            console.log('Not authorized.');
+        }
+    });
+
     const navigate = useNavigate();
     const [bodyState] = useState({
         head: {
@@ -382,17 +395,16 @@ export default function SymptomDeclaration() {
         );
         /* --------------Add to database----------------*/
         /*--------------where can I find the userid?---------*/
-        
+
         createConsultHistory2(uid, serverTimestamp(), patientCodition);
         window.alert(patientCodition);
-        
-        
-        //navigate('/doctorchat');
+
+        navigate('/doctorchat');
     }
 
     return (
         <div className='DeclareSymptoms'>
-            <h1>Hello Dear 'patient name'</h1>
+            <h1>Hello Dear {uid}</h1>
             <h2> Please select your area of discomfort and click next!</h2>
 
             <div>
