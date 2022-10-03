@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Grid, CircularProgress, Button, IconButton } from '@mui/material';
+import { Grid, CircularProgress, IconButton } from '@mui/material';
 import ChatBar from '../components/ChatBar.jsx';
 import ChatWindow from '../components/ChatWindow.jsx';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import ExitDialog from '../components/ExitDialog.jsx';
 
-import {createConsultHistory1, createChatHistory} from '../firestore functions.js';
-import {serverTimestamp} from "firebase/firestore";
+import { createConsultHistory1 } from '../firestore functions.js';
+import { serverTimestamp } from 'firebase/firestore';
 
 export default function DoctorChat(props) {
     const [loading, setLoading] = useState(true);
@@ -17,8 +17,7 @@ export default function DoctorChat(props) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogOption, setDialogOption] = useState(false);
     const navigate = useNavigate();
-    
-    const {uDocRef, dDocRef} = null;
+    const [docRef, setDocRef] = useState(null);
 
     useEffect(() => {
         // Exit selected in dialog:
@@ -27,12 +26,31 @@ export default function DoctorChat(props) {
         }
 
         //Set up observer on user authentication
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // User is signed in
                 console.log('Authorization granted.');
                 props.setLoggedIn(true);
                 setUserName((prev) => user.uid);
+
+                /*----------------------Create new consult history document-----------------------*/
+                /*-----------------------------Where to find doctor ID?---------------------------*/
+                if (docRef === null) {
+                    const timestamp = serverTimestamp();
+                    const docName = 'Q4YOpBF1nrh47yGuh0UQ';
+                    let { uDocRef, dDocRef } = await createConsultHistory1(
+                        user.uid,
+                        docName,
+                        timestamp
+                    );
+                    console.log('uDocRef: ', uDocRef);
+                    console.log('dDocRef: ', dDocRef);
+                    setDocRef((prev) => ({
+                        uDocRef,
+                        dDocRef,
+                    }));
+                }
+
                 setLoading(false);
             } else {
                 // User is signed out
@@ -41,30 +59,17 @@ export default function DoctorChat(props) {
                 setLoading(false);
             }
         });
-    });
+    }, []);
 
     const xButtonHandler = () => {
         // Open dialog to end chat:
         setDialogOpen((prev) => true);
-        
-        /*----------------------Create new consult history document-----------------------*/
-        /*-----------------------------Where to find doctor ID?---------------------------*/
-        const timestamp = serverTimestamp();
-        const docName = "Q4YOpBF1nrh47yGuh0UQ";
-        const {uDocRef, dDocRef} = createConsultHistory1(userName, docName, timestamp);
-
-        /*---------------store msg into firestore when doc/patient hits enter---------*/
-        // if (uDocRef != null && dDocRef != null){
-        //     if (sent msg){
-        //         createChatHistory(uDocRef, dDocRef, serverTimestamp(), sender, msg);
-        //     }
-        // }
     };
 
     const dialogCloseHandler = (value) => {
         setDialogOpen((prev) => false);
         setDialogOption((prev) => value);
-        const {uDocRef, dDocRef} = null;
+        setDocRef((prev) => null);
     };
 
     return loading ? (
@@ -77,7 +82,7 @@ export default function DoctorChat(props) {
         >
             <CircularProgress size={60} />
         </Grid>
-    ) : props.loggedIn ? (
+    ) : props.loggedIn && !loading ? (
         <Grid
             container
             sx={{ minHeight: '100vh', bgcolor: 'background.default' }}
@@ -89,10 +94,10 @@ export default function DoctorChat(props) {
                 </IconButton>
             </Grid>
             <Grid item alignItems='center' xs={12} sx={{ minHeight: '72vh' }}>
-                <ChatWindow userName={'Kate'} />
+                <ChatWindow userName={userName} docRef={docRef} />
             </Grid>
             <Grid item>
-                <ChatBar />
+                <ChatBar docRef={docRef} userName={userName} />
             </Grid>
             <ExitDialog open={dialogOpen} onClose={dialogCloseHandler} />
         </Grid>

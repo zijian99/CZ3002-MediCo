@@ -20,8 +20,11 @@ import {
     orderBy,
     limit,
     getDocs,
+    serverTimestamp,
+    addDoc,
 } from 'firebase/firestore';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { createChatHistory } from '../firestore functions';
 
 const MUIComponents = {
     List: React.forwardRef(({ style, children }, listRef) => {
@@ -61,30 +64,32 @@ const MUIComponents = {
     },
 };
 
-//TO DO: create a new chat history document
-
-// Get chat history collection, order by timestamp:
-const chat_history_q = query(
-    collection(
-        db,
-        'Users/' +
-            'J5WUaa4nGwxCan4NG14c' +
-            '/ConsultHistory/' +
-            'w9BczbnDeH8QKzdWCoMv' +
-            '/ChatHistory'
-    ),
-    orderBy('timestamp')
-); // Placeholder userID for testing
-
 export default function ChatWindow(props) {
     const [virtualList, setVirtualList] = useState([]);
     const navigate = useNavigate();
     const virtuoso = useRef(null);
 
     useEffect(() => {
-        if (props.userName == null) {
+        if (props.userName === null) {
             console.log('userName not found.');
+            return;
         }
+        if (props.docRef === null) {
+            return;
+        }
+
+        createChatHistory(
+            props.docRef.uDocRef,
+            props.docRef.dDocRef,
+            serverTimestamp(),
+            'Doctor',
+            'Hi there!'
+        );
+        // Get chat history collection, order by timestamp:
+        const chat_history_q = query(
+            collection(props.docRef.uDocRef, 'ChatHistory'),
+            orderBy('timestamp')
+        );
 
         //Update chat list upon change
         const unsubscribe = onSnapshot(chat_history_q, (querySnapshot) => {
@@ -100,12 +105,7 @@ export default function ChatWindow(props) {
             console.log(chat_history);
             setVirtualList(chat_history.map((item) => item));
         });
-    }, [navigate, props.userName]);
-
-    useEffect(() => {
-        console.log('virtualList: ');
-        console.log(virtualList);
-    }, [virtualList]);
+    }, [navigate]);
 
     return (
         <Virtuoso
