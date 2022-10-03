@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Grid, CircularProgress, Button, IconButton } from '@mui/material';
+import { Grid, CircularProgress, IconButton } from '@mui/material';
 import ChatBar from '../components/ChatBar';
 import ChatWindow from '../components/ChatWindow';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import ExitDialog from '../components/ExitDialog.jsx';
 
+import {
+    createConsultHistory1,
+    getDisplayName,
+} from '../firestore functions.js';
+import { serverTimestamp } from 'firebase/firestore';
+
 export default function DoctorChat(props) {
     const [loading, setLoading] = useState(true);
-    const [userName, setUserName] = useState(null);
+    const [userID, setUserID] = useState(null);
+    const [userName, setUserName] = useState('');
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogOption, setDialogOption] = useState(false);
     const navigate = useNavigate();
+    const [docRef, setDocRef] = useState(null);
 
     useEffect(() => {
         // Exit selected in dialog:
@@ -22,12 +30,34 @@ export default function DoctorChat(props) {
         }
 
         //Set up observer on user authentication
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // User is signed in
                 console.log('Authorization granted.');
                 props.setLoggedIn(true);
-                setUserName((prev) => user.uid);
+                setUserID((prev) => user.uid);
+
+                /*----------------------Create new consult history document-----------------------*/
+                /*-----------------------------Where to find doctor ID?---------------------------*/
+                if (docRef === null) {
+                    const timestamp = serverTimestamp();
+                    const docName = 'Q4YOpBF1nrh47yGuh0UQ';
+                    let { uDocRef, dDocRef } = await createConsultHistory1(
+                        user.uid,
+                        docName,
+                        timestamp
+                    );
+                    console.log('uDocRef: ', uDocRef);
+                    console.log('dDocRef: ', dDocRef);
+                    setDocRef((prev) => ({
+                        uDocRef,
+                        dDocRef,
+                    }));
+
+                    const user_name = await getDisplayName(user.uid);
+                    setUserName((prev) => user_name);
+                }
+
                 setLoading(false);
             } else {
                 // User is signed out
@@ -36,7 +66,7 @@ export default function DoctorChat(props) {
                 setLoading(false);
             }
         });
-    });
+    }, []);
 
     const xButtonHandler = () => {
         // Open dialog to end chat:
@@ -46,6 +76,7 @@ export default function DoctorChat(props) {
     const dialogCloseHandler = (value) => {
         setDialogOpen((prev) => false);
         setDialogOption((prev) => value);
+        setDocRef((prev) => null);
     };
 
     return loading ? (
@@ -58,7 +89,7 @@ export default function DoctorChat(props) {
         >
             <CircularProgress size={60} />
         </Grid>
-    ) : props.loggedIn ? (
+    ) : props.loggedIn && !loading ? (
         <Grid
             container
             sx={{ minHeight: '100vh', bgcolor: 'background.default' }}
@@ -70,10 +101,14 @@ export default function DoctorChat(props) {
                 </IconButton>
             </Grid>
             <Grid item alignItems='center' xs={12} sx={{ minHeight: '72vh' }}>
-                <ChatWindow userName={'Kate'} />
+                <ChatWindow
+                    userID={userID}
+                    docRef={docRef}
+                    userName={userName}
+                />
             </Grid>
             <Grid item>
-                <ChatBar />
+                <ChatBar docRef={docRef} userID={userID} userName={userName} />
             </Grid>
             <ExitDialog open={dialogOpen} onClose={dialogCloseHandler} />
         </Grid>
