@@ -11,6 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import {createUserDoc} from '../firestore functions.js';
+import { FormatColorReset } from "@mui/icons-material";
 
 
 export default function Register(props) {
@@ -22,6 +23,7 @@ export default function Register(props) {
 	const [gender, setGender] = useState('');
 	const [postalcode, setPostalCode] = useState('');
 	const [age, setAge] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	{/*const [submitted, setSubmitted] = useState(false);*/}
 	const [error, setError] = useState(false);
@@ -119,6 +121,7 @@ export default function Register(props) {
 	};
 
 	const register = (email,password) => {
+		setLoading(true)
 		createUserWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
 			const user = userCredential.user;
@@ -131,6 +134,7 @@ export default function Register(props) {
 				postal_code: postalcode
 			});
 			/*-----------NEED TO EXTRACT DATA FROM USER INPUT------*/
+			setLoading(false)
 			navigate("/");
 		})
   		.catch((error) => {

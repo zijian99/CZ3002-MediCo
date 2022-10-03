@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Typography } from "@mui/material";
+import { TextField, Typography , Grid , CircularProgress} from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Sheet from "@mui/joy/Sheet";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,16 @@ import { auth } from "../firebase";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const signIn = (email, password) => {
         setTimeout(() => {
+            setLoading(true)
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
+                    setLoading(false);
                     console.log("Logged In Successfully");
                     const user = userCredential.user;
                     navigate("/selection");
@@ -32,7 +36,18 @@ export default function Login() {
       }
     
 
-    return (
+    return loading ? (
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          sx={{ minHeight: "90vh" }}
+        >
+          <CircularProgress size={100} />
+        </Grid>
+        ):  (
         <Sheet
             sx={{
                 maxWidth: 400,

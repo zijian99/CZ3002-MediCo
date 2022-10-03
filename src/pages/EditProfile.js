@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import { TextField, Typography , Alert , Grid , CircularProgress , Radio , RadioGroup , FormLabel , FormControlLabel} from "@mui/material";
+import { TextField, Typography , Alert , Grid , CircularProgress} from "@mui/material";
 import {Sheet} from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 import { auth , db} from "../firebase";
@@ -11,10 +11,8 @@ import { doc, getDoc , updateDoc} from "firebase/firestore";
 export default function EditProfile(props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-	const [gender, setGender] = useState('');
 	const [postalcode, setPostalCode] = useState('');
-	const [age, setAge] = useState('');
-  const [curpassword , setCurPassword] = useState('');
+  const [currentpassword , setCurrentPassword] = useState('');
 
 
   const [loading, setLoading] = useState(true);
@@ -23,7 +21,6 @@ export default function EditProfile(props) {
   const [emailvmessage, setEmailVMessage] = useState(false);
   const [emailmessage, setEmailMessage] = useState(false);
   const [postalcodemessage, setPostalCodeMessage] = useState(false);
-  const [agemessage, setAgeMessage] = useState(false);
 
 
   const [error, setError] = useState(false);
@@ -58,7 +55,7 @@ export default function EditProfile(props) {
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
           console.log('Pressed on Enter Key');
-          savingInfo(name , email , postalcode , age , gender , curpassword);
+          savingInfo(name , email , postalcode , currentpassword);
         }
       };
 
@@ -72,7 +69,6 @@ export default function EditProfile(props) {
           //console.log(user.uid);
           setName(docSnap.data().username);
           setPostalCode(docSnap.data().postal_code);
-          setAge(docSnap.data().age);
           } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -82,12 +78,11 @@ export default function EditProfile(props) {
       
     
 
-    async function savingInfo (name , email , postalcode , age , gender , curpassword) {
+    async function savingInfo (name , email , postalcode, currentpassword) {
         setNameMessage(false);
         setEmailMessage(false);
         setEmailVMessage(false);
         setPostalCodeMessage(false);
-        setAgeMessage(false);
         setMessage(false);
         setError(false);
         setFormat(false);
@@ -98,9 +93,9 @@ export default function EditProfile(props) {
         console.log("name:" , name)
         console.log("email:" , email)
         console.log("postalcode:" , postalcode)
-        console.log("age:" , age)
+  
 
-        if(name==="" || email==="" || postalcode==="" || age==="" || gender==="" || curpassword===""){
+        if(name==="" || email==="" || postalcode==="" || currentpassword===""){
           setFormat(true);
           console.log("Error: empty fields");
           return
@@ -127,20 +122,13 @@ export default function EditProfile(props) {
           return
         }
 
-
-        //check if valid age
-        if(age<=0){
-          setAgeMessage(true);
-          console.log("Error: Age out of range");
-          return
-        }
     
-        console.log("agemessage: " ,agemessage , " postalcodemessage: " , postalcodemessage , " email: " , emailvmessage , " format: " , format);
+        console.log("postalcodemessage: " , postalcodemessage , " email: " , emailvmessage , " format: " , format);
         //if all the format and checks are passed
-        if(agemessage===false && postalcodemessage===false && emailvmessage===false && format===false){
+        if(postalcodemessage===false && emailvmessage===false && format===false){
           try{
             //if email is check if email is already in use, if not.. update into the firestore authentication
-            await updatingEmail(email , curpassword);
+            await updatingEmail(email , currentpassword);
         }
         catch{
             setError(true);
@@ -150,7 +138,7 @@ export default function EditProfile(props) {
 
     };
 
-    async function updateFirebaseInfo(name , newemail , postalcode , age , newgender){
+    async function updateFirebaseInfo(name , newemail , postalcode){
       const user = getAuth().currentUser;
       const docRef = doc(db, "Users", user.uid);
 
@@ -165,23 +153,23 @@ export default function EditProfile(props) {
 
         await updateDoc(docRef, {
           username: name , 
-          postal_code: postalcode ,
-          age: age ,
-          gender: newgender
+          postal_code: postalcode
         })
         console.log("updated other info into firestore");
         setMessage(true);
         
     }
 
-    function updatingEmail(newemail , curpassword){
+    function updatingEmail(newemail , currentpassword){
         const user = getAuth().currentUser;
 
         var cred = EmailAuthProvider.credential(
           user.email,
-          curpassword
+          currentpassword
         );
         console.log(user.email)
+        console.log(currentpassword)
+        console.log("i guess credential?" + cred)
         
         reauthenticateWithCredential(user, cred).then(() => {
           // User sucessful re-authenticated.
@@ -194,7 +182,7 @@ export default function EditProfile(props) {
           //successfully updated into firestore authentication
           console.log("Successful email change in authentication");
           setEmailMessage(false);
-          updateFirebaseInfo(name , newemail , postalcode , age , gender)
+          updateFirebaseInfo(name , newemail , postalcode)
           // Update successful.
   
           }).catch((error) => {
@@ -344,20 +332,6 @@ export default function EditProfile(props) {
         );
     };
 
-    const errorAge = () => {
-        return (
-          //empty fields
-          <div
-          className="format"
-          style={{
-            display: agemessage ? '' : 'none',
-          }}>
-          <Alert severity="error">
-            Age out of range
-          </Alert>
-          </div>
-        );
-    };
 
     
     return loading ? (
@@ -418,37 +392,12 @@ export default function EditProfile(props) {
             }}
         />
 
-		    <TextField
-            id="outlined-age"
-            type="number"
-            label="Age"
-            defaultValue={age}
-			      onChange={(event) => {
-                setAge(event.target.value);
-            }}
-        />
-
-        <FormLabel>Gender</FormLabel>
-		<RadioGroup
-			row
-			aria-labelledby="demo-row-radio-buttons-group-label"
-			name="row-radio-buttons-group"
-			type="gender"
-			onChange={(event) => {
-                setGender(event.target.value);
-            }}
-		>
-		<FormControlLabel value="female" control={<Radio />} label="Female" />
-		<FormControlLabel value="male" control={<Radio />} label="Male" />
-		</RadioGroup>
-
-
       <TextField
         type="password"
         placeholder="Current Password"
         label="Current Password"
         onChange={(event) => {
-            setCurPassword(event.target.value);
+          setCurrentPassword(event.target.value);
         }}
         onKeyDown={handleKeyDown} 
         />
@@ -457,7 +406,7 @@ export default function EditProfile(props) {
         sx={{
             mt: 10, // margin top
         }}
-        onClick={() => savingInfo(name , email , postalcode , age , gender , curpassword)}
+        onClick={() => savingInfo(name , email , postalcode, currentpassword)}
         >
         Save
         </button>  
@@ -465,7 +414,7 @@ export default function EditProfile(props) {
         <br/>
         <div className="messages">
 			{errorMessage()}{errorFormat()}{successMessage()}
-            {errorName()}{errorEmail()}{errorEmailV()}{errorPostalCode()}{errorAge()}
+            {errorName()}{errorEmail()}{errorEmailV()}{errorPostalCode()}
 		</div>
     </Sheet>
     );
