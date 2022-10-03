@@ -105,7 +105,14 @@ export default function ChatWindow(props) {
             console.log(chat_history);
             setVirtualList(chat_history.map((item) => item));
         });
-    }, [navigate]);
+    }, []);
+
+    useEffect(() => {
+        /*
+        Query logic
+        */
+        console.log('i fire once');
+    }, []);
 
     return (
         <Virtuoso
