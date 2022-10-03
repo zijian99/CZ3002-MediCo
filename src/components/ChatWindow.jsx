@@ -70,8 +70,8 @@ export default function ChatWindow(props) {
     const virtuoso = useRef(null);
 
     useEffect(() => {
-        if (props.userName === null) {
-            console.log('userName not found.');
+        if (props.usreID === null) {
+            console.log('userID not found.');
             return;
         }
         if (props.docRef === null) {
@@ -82,8 +82,8 @@ export default function ChatWindow(props) {
             props.docRef.uDocRef,
             props.docRef.dDocRef,
             serverTimestamp(),
-            'Doctor',
-            'Hi there!'
+            '<Automated Message>',
+            'Hi there! Feel free to ask me anything about your health.'
         );
         // Get chat history collection, order by timestamp:
         const chat_history_q = query(
@@ -105,13 +105,6 @@ export default function ChatWindow(props) {
             console.log(chat_history);
             setVirtualList(chat_history.map((item) => item));
         });
-    }, []);
-
-    useEffect(() => {
-        /*
-        Query logic
-        */
-        console.log('i fire once');
     }, []);
 
     return (

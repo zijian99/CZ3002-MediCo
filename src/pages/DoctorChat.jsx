@@ -8,12 +8,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import ExitDialog from '../components/ExitDialog.jsx';
 
-import { createConsultHistory1 } from '../firestore functions.js';
+import {
+    createConsultHistory1,
+    getDisplayName,
+} from '../firestore functions.js';
 import { serverTimestamp } from 'firebase/firestore';
 
 export default function DoctorChat(props) {
     const [loading, setLoading] = useState(true);
-    const [userName, setUserName] = useState(null);
+    const [userID, setUserID] = useState(null);
+    const [userName, setUserName] = useState('');
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogOption, setDialogOption] = useState(false);
     const navigate = useNavigate();
@@ -31,7 +35,7 @@ export default function DoctorChat(props) {
                 // User is signed in
                 console.log('Authorization granted.');
                 props.setLoggedIn(true);
-                setUserName((prev) => user.uid);
+                setUserID((prev) => user.uid);
 
                 /*----------------------Create new consult history document-----------------------*/
                 /*-----------------------------Where to find doctor ID?---------------------------*/
@@ -49,6 +53,9 @@ export default function DoctorChat(props) {
                         uDocRef,
                         dDocRef,
                     }));
+
+                    const user_name = await getDisplayName(user.uid);
+                    setUserName((prev) => user_name);
                 }
 
                 setLoading(false);
@@ -94,10 +101,14 @@ export default function DoctorChat(props) {
                 </IconButton>
             </Grid>
             <Grid item alignItems='center' xs={12} sx={{ minHeight: '72vh' }}>
-                <ChatWindow userName={userName} docRef={docRef} />
+                <ChatWindow
+                    userID={userID}
+                    docRef={docRef}
+                    userName={userName}
+                />
             </Grid>
             <Grid item>
-                <ChatBar docRef={docRef} userName={userName} />
+                <ChatBar docRef={docRef} userID={userID} userName={userName} />
             </Grid>
             <ExitDialog open={dialogOpen} onClose={dialogCloseHandler} />
         </Grid>

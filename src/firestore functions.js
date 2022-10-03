@@ -66,9 +66,22 @@ const createChatHistory = async (uDocRef, dDocRef, timestamp, sender, msg) => {
     });
 };
 
+const getDisplayName = async (uid) => {
+    /* get display name of user */
+    const docRef = doc(db, 'Users', uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return docSnap.data().username;
+    } else {
+        console.log('No such document!');
+        return null;
+    }
+};
+
 export {
     createUserDoc,
     createConsultHistory1,
     createConsultHistory2,
     createChatHistory,
+    getDisplayName,
 };
