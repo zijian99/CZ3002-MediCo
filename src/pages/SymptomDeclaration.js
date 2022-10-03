@@ -1,5 +1,5 @@
 import { BodyComponent } from 'reactjs-human-body';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -8,22 +8,12 @@ import { ClassNames } from '../css/Symptom.css';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { createConsultHistory2 } from '../firestore functions';
+import { createConsultHistory2, getDisplayName } from '../firestore functions';
 import { serverTimestamp } from 'firebase/firestore';
 
-export default function SymptomDeclaration() {
-    const uid = '';
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in
-
-            uid = user.uid;
-            console.log('Authorization granted to ' + uid);
-        } else {
-            // User is signed out
-            console.log('Not authorized.');
-        }
-    });
+export default function SymptomDeclaration(props) {
+    const [userID, setUserID] = useState(null);
+    const [userName, setUserName] = useState('');
 
     const navigate = useNavigate();
     const [bodyState] = useState({
@@ -99,9 +89,26 @@ export default function SymptomDeclaration() {
         },
     });
 
-    //   useState(() => {
-    //     window.alert(JSON.stringify(bodyState.head));
-    //   }, [bodyState]);
+    useEffect(() => {
+        //Set up observer on user authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in
+                console.log('Authorization granted.');
+
+                // props.setLoggedIn(true);
+                setUserID((prev) => user.uid);
+                const user_name = await getDisplayName(user.uid);
+                //console.log(user_name);
+                // window.alert(userID);
+                setUserName((prev) => user_name);
+            } else {
+                // User is signed out
+                console.log('Not authorized.');
+                props.setLoggedIn(false);
+            }
+        });
+    }, []);
 
     const [pain, setPain] = useState(false);
     const [numb, setNumb] = useState(false);
@@ -397,7 +404,7 @@ export default function SymptomDeclaration() {
         /* --------------Add to database----------------*/
         /*--------------where can I find the userid?---------*/
 
-        createConsultHistory2(uid, serverTimestamp(), patientCodition);
+        createConsultHistory2(userID, serverTimestamp(), patientCodition);
         window.alert(patientCodition);
 
         navigate('/doctorchat');
@@ -405,7 +412,7 @@ export default function SymptomDeclaration() {
 
     return (
         <div className='DeclareSymptoms'>
-            <h1>Hello Dear {uid}</h1>
+            <h1>Hello Dear {userName}</h1>
             <h2> Please select your area of discomfort and click next!</h2>
 
             <div>
