@@ -106,7 +106,7 @@ export default function ChatBar(props) {
             container
             direction='row'
             alignItems='center'
-            justifyContent='flex-start'
+            justifyContent='center'
             spacing={3}
         >
             <Grid item xs={8} sm={10} flexGrow='1'>
