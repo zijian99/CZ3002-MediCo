@@ -72,7 +72,7 @@ export default function Home(props) {
                 sx={{
                     position: 'absolute',
                     left: '12%',
-                    top: '710px',
+                    top: '1010px',
                     fontSize: '20px',
                     display: 'flex',
                     backgroundColor: 'darkslategray',
