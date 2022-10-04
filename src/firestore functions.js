@@ -1,6 +1,7 @@
 // added "type": "module" to package.json to avoid error: cannot use import statement outside a module
 // import above functions from this file if needed
 
+
 import { auth, db } from './firebase.js';
 import {
     doc,
@@ -13,6 +14,7 @@ import {
 } from 'firebase/firestore';
 
 const createUserDoc = async (uid, data) => {
+
     /* create new user document upon registration */
     await setDoc(doc(db, 'Users', uid), data);
 };
@@ -48,6 +50,7 @@ const createConsultHistory2 = async (uid, timestamp, data) => {
     });
     return uDocRef;
 };
+
 
 const createChatHistory = async (uDocRef, dDocRef, timestamp, sender, msg) => {
     /* create new chat history document to store chat msg */
@@ -85,3 +88,4 @@ export {
     createChatHistory,
     getDisplayName,
 };
+

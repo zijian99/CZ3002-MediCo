@@ -66,7 +66,7 @@ export default function DoctorChat(props) {
                 setLoading(false);
             }
         });
-    }, []);
+    }, [dialogOption]);
 
     const xButtonHandler = () => {
         // Open dialog to end chat:
