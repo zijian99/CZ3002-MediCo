@@ -66,7 +66,7 @@ export default function DoctorChat(props) {
                 setLoading(false);
             }
         });
-    }, []);
+    }, [dialogOption]);
 
     const xButtonHandler = () => {
         // Open dialog to end chat:
@@ -77,7 +77,6 @@ export default function DoctorChat(props) {
         setDialogOpen((prev) => false);
         setDialogOption((prev) => value);
         setDocRef((prev) => null);
-        navigate('/payment');
     };
 
     return loading ? (
