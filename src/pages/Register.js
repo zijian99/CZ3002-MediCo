@@ -10,7 +10,10 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { Grid } from '@mui/material';
+import { CircularProgress } from '@mui/material/';
 import { createUserDoc } from '../firestore functions.js';
+import { FormatColorReset } from '@mui/icons-material';
 
 export default function Register(props) {
     const navigate = useNavigate();
@@ -21,6 +24,7 @@ export default function Register(props) {
     const [gender, setGender] = useState('');
     const [postalcode, setPostalCode] = useState('');
     const [age, setAge] = useState('');
+    const [loading, setLoading] = useState(false);
 
     {
         /*const [submitted, setSubmitted] = useState(false);*/
@@ -113,7 +117,7 @@ export default function Register(props) {
         } else if (!isValidEmail(email)) {
             return setEmailErr(true);
         } else if (!Number(postalcode) || postalcode.toString().length !== 6) {
-        /* else if (snapshot.empty==false)
+            /* else if (snapshot.empty==false)
 			{
 				return setEmailTaken(true);
 			} */
@@ -130,6 +134,7 @@ export default function Register(props) {
     };
 
     const register = (email, password) => {
+        setLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -145,7 +150,7 @@ export default function Register(props) {
                 navigate('/');
             })
             .catch((error) => {
-                props.setLoading(false);
+                //props.setLoading(false);
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 // ..
@@ -270,7 +275,18 @@ export default function Register(props) {
         );
     };
 
-    return (
+    return loading ? (
+        <Grid
+            container
+            spacing={0}
+            direction='column'
+            alignItems='center'
+            justifyContent='center'
+            sx={{ minHeight: '90vh' }}
+        >
+            <CircularProgress size={100} />
+        </Grid>
+    ) : (
         <Sheet
             sx={{
                 maxWidth: 400,

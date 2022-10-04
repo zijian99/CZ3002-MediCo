@@ -40,7 +40,9 @@ export default function Navbar(props) {
 
     //logout the user
     const logout = () => {
+        setLoading(true);
         auth.signOut();
+        setLoading(false);
         console.log('User signed out');
         props.setLoggedIn(false);
     };
