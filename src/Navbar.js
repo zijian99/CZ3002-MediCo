@@ -5,7 +5,7 @@ import { auth } from './firebase';
 import { Toolbar, AppBar, Button } from '@mui/material';
 import { Link } from '@mui/material';
 import { onAuthStateChanged } from 'firebase/auth';
-import logo from './img/logo/facebook_cover_photo_1.png';
+import logo from './img/logo/facebook_cover_photo_1_rounded.png';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
@@ -66,7 +66,7 @@ export default function Navbar(props) {
 
     return loading ? (
         <AppBar>
-            <Toolbar sx={{ backgroundColor: '#00172D' }}>
+            <Toolbar sx={{ backgroundColor: '#0ABAB5' }}>
                 <Button
                     href='/'
                     sx={{
@@ -82,7 +82,7 @@ export default function Navbar(props) {
         </AppBar>
     ) : !props.loggedIn ? ( //display if user is logged out
         <AppBar position='static'>
-            <Toolbar sx={{ backgroundColor: '#00172D' }}>
+            <Toolbar sx={{ backgroundColor: '#0ABAB5' }}>
                 <Button
                     href='/'
                     sx={{
@@ -127,7 +127,7 @@ export default function Navbar(props) {
     ) : (
         //this portion is if the user is logged in
         <AppBar position='static'>
-            <Toolbar sx={{ backgroundColor: '#00172D' }}>
+            <Toolbar sx={{ backgroundColor: '#0ABAB5' }}>
                 <Button
                     href='/'
                     sx={{
@@ -160,7 +160,10 @@ export default function Navbar(props) {
                                     flex: '0.5',
                                     marginLeft: 7,
                                     marginRight: 7,
+                                    fontWeight: 'bold',
+                                    
                                 }}
+                                
                                 color={'black'}
                             >
                                 {item}
