@@ -88,7 +88,7 @@ export default function DoctorChat(props) {
             justifyContent='center'
             sx={{ minHeight: '90vh', marginTop: '75px' }}
         >
-            <CircularProgress size={60} />
+            <CircularProgress size={100} />
         </Grid>
     ) : props.loggedIn && !loading ? (
         <Grid
