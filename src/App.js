@@ -72,6 +72,9 @@ function App() {
                                 />
                             }
                         />
+                        <Route path='/doctorlogin' element={<div></div>} />
+                        <Route path='/doctorselection' element={<div></div>} />
+                        <Route path='/doctorsidechat' element={<div></div>} />
                         <Route
                             path='/Login'
                             element={
