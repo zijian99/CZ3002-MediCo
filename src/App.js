@@ -18,6 +18,7 @@ import CardPayment from './pages/CardPayment';
 import QRPage from './pages/QRPage';
 import AfterPayment from './pages/AfterPayment';
 import Position from './pages/Position';
+import DoctorSelection from './pages/DoctorSelection';
 //import Position from './pages/Position';
 
 let isFirefox;
@@ -73,7 +74,15 @@ function App() {
                             }
                         />
                         <Route path='/doctorlogin' element={<div></div>} />
-                        <Route path='/doctorselection' element={<div></div>} />
+                        <Route
+                            path='/doctorselection'
+                            element={
+                                <DoctorSelection
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            }
+                        />
                         <Route path='/doctorsidechat' element={<div></div>} />
                         <Route
                             path='/Login'

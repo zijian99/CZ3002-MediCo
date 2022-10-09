@@ -12,7 +12,7 @@ export default function SelectionCard(props) {
         <Card
             sx={{
                 width: '60vh',
-                borderRadius: 16,
+                borderRadius: 10,
                 transition: '0.2s',
                 '&:hover': {
                     transform: 'scale(1.1)',

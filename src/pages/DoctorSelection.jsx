@@ -4,11 +4,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import SelectionCard from '../components/SelectionCard';
 import doctor_side_chat from '../assets/doctor_side_chat.jpg';
-import symptom_declaration_image from '../assets/symptom_declaration_image.jpg';
 import { Grid, CircularProgress, Typography } from '@mui/material';
 import { Fade, Zoom } from '@mui/material';
 
-export default function Selection(props) {
+export default function DoctorSelection(props) {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
