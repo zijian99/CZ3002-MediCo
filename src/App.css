@@ -3,6 +3,14 @@
     height: 100%;
 }
 
+.appContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
 .App-logo {
     height: 40vmin;
     pointer-events: none;
