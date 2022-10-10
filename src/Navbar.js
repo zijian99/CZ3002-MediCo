@@ -66,7 +66,7 @@ export default function Navbar(props) {
 
     return loading ? (
         <AppBar>
-            <Toolbar sx={{ backgroundColor: '#0ABAB5' }}>
+            <Toolbar sx={{ backgroundColor: '#00172D' }}>
                 <Button
                     href='/'
                     sx={{
@@ -82,7 +82,7 @@ export default function Navbar(props) {
         </AppBar>
     ) : !props.loggedIn ? ( //display if user is logged out
         <AppBar position='static'>
-            <Toolbar sx={{ backgroundColor: '#0ABAB5' }}>
+            <Toolbar sx={{ backgroundColor: '#00172D' }}>
                 <Button
                     href='/'
                     sx={{
@@ -127,7 +127,7 @@ export default function Navbar(props) {
     ) : (
         //this portion is if the user is logged in
         <AppBar position='static'>
-            <Toolbar sx={{ backgroundColor: '#0ABAB5' }}>
+            <Toolbar sx={{ backgroundColor: '#00172D' }}>
                 <Button
                     href='/'
                     sx={{
