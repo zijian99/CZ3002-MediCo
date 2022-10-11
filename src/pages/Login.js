@@ -1,98 +1,79 @@
-import React, { useState } from 'react';
-import { TextField, Typography, Grid, CircularProgress } from '@mui/material';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import Sheet from '@mui/joy/Sheet';
+import React from 'react';
+import {Typography, Button , Box, ButtonGroup , Divider} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
+  
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-
     const navigate = useNavigate();
 
-    const signIn = (email, password) => {
-        setLoading(true);
-        setTimeout(() => {
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    console.log('Logged In Successfully');
-                    const user = userCredential.user;
-                    navigate('/selection');
-                })
-                .catch((error) => {
-                    console.log('Wrong Email/Password.');
-                });
-        }, 2000);
-    };
+    const handleUser = () => {
+        navigate('/LoginUser');
+    }
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            console.log('Pressed on Enter Key');
-            signIn(email, password);
-        }
-    };
+    const handleDoctor = () => {
+        navigate('/LoginDoctor');
+    }
 
-    return loading ? (
-        <Grid
-            container
-            spacing={0}
-            direction='column'
-            alignItems='center'
-            justifyContent='center'
-            sx={{ minHeight: '90vh' }}
-        >
-            <CircularProgress size={100} />
-        </Grid>
-    ) : (
-        <Sheet
-            sx={{
-                maxWidth: 400,
-                mx: 'auto', // margin left & right
-                my: 4, // margin top & botom
-                py: 3, // padding top & bottom
-                px: 2, // padding left & right
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                borderRadius: 'sm',
-                boxShadow: 'md',
-            }}
-        >
+    return(
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'centre',
+          flexDirection: 'column',
+          mx: 'auto', // margin left & right
+          my: 4, // margin top & botom
+          py: 3, // padding top & bottom
+          px: 2, // padding left & right
+          bgcolor: 'background.paper',
+          borderRadius: 1,
+        }}>
+        <div>
+        <Typography variant='h4'
+            component='h1'
+            align='center'>
+            <b>Login Here</b>
+        </Typography>
+        </div>
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'centre',
+          flexDirection: 'column',
+          mx: 'auto', // margin left & right
+          my: 4, // margin top & botom
+          py: 3, // padding top & bottom
+          px: 2, // padding left & right
+          width: 400 , 
+          height: 213
+        }}
+        border={1}
+        borderColor='#D4D4D4'
+        borderRadius={10}>
+            <ButtonGroup 
+            orientation="vertical" 
+            aria-label="vertical outlined button group" 
+            sx={{gap:2}}>
+
+            <Button variant='contained'
+                onClick={handleUser}>
+            User Login
+            </Button><br/>
+
             <div>
-                <Typography level='h4' component='h1'>
-                    <b>Login Here</b>
-                </Typography>
-                <Typography level='body2'>Sign in to continue</Typography>
+            <Divider textAlign="center">
+            <Typography>
+            Or
+            </Typography>
+            </Divider>
             </div>
-            <TextField
-                // html input attribute
-                type='email'
-                placeholder='email'
-                // pass down to FormLabel as children
-                label='Email'
-                onChange={(event) => {
-                    setEmail(event.target.value);
-                }}
-            />
-            <TextField
-                type='password'
-                placeholder='password'
-                label='Password'
-                onChange={(event) => {
-                    setPassword(event.target.value);
-                }}
-                onKeyDown={handleKeyDown}
-            />
-            <button
-                sx={{
-                    mt: 10, // margin top
-                }}
-                onClick={() => signIn(email, password)}
-            >
-                Log In
-            </button>
-        </Sheet>
+            <br/>
+
+            <Button variant='contained'
+                    onClick={handleDoctor}>
+            Doctor Login
+            </Button>
+            </ButtonGroup>   
+        </Box>
+        </Box>
     );
 }

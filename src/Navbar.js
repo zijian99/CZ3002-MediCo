@@ -162,6 +162,7 @@ export default function Navbar(props) {
                                     marginRight: 7,
                                     fontWeight: 'bold',
                                 }}
+                                
                                 color={'black'}
                             >
                                 {item}

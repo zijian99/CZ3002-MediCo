@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import LoginUser from './pages/LoginUser';
 import Register from './pages/Register';
 import About from './pages/About';
 import Navbar from './Navbar';
@@ -18,6 +18,8 @@ import CardPayment from './pages/CardPayment';
 import QRPage from './pages/QRPage';
 import AfterPayment from './pages/AfterPayment';
 import Position from './pages/Position';
+import Login from './pages/Login';
+import LoginDoctor from './pages/LoginDoctor';
 import DoctorSelection from './pages/DoctorSelection';
 import DoctorSideChat from './pages/DoctorSideChat'
 //import Position from './pages/Position';
@@ -36,8 +38,14 @@ function App() {
         case './pages/Home':
             Component = Home;
             break;
-        case './pages/Login':
+        case './pages./Login':
             Component = Login;
+            break;
+        case './pages/LoginUser':
+            Component = LoginUser;
+            break;
+        case './pages/LoginDoctor':
+            Component = LoginDoctor;
             break;
         case './pages/Register':
             Component = Register;
@@ -89,9 +97,18 @@ function App() {
                             element={
                             <DoctorSideChat/>} />
                         <Route
-                            path='/Login'
+                            path='/LoginUser'
                             element={
-                                <Login
+                                <LoginUser
+                                    loggedIn={loggedIn}
+                                    setLoggedIn={setLoggedIn}
+                                />
+                            }
+                        />
+                        <Route
+                            path='/LoginDoctor'
+                            element={
+                                <LoginDoctor
                                     loggedIn={loggedIn}
                                     setLoggedIn={setLoggedIn}
                                 />
@@ -117,6 +134,7 @@ function App() {
                             }
                         />
                         <Route path='/About' element={<About />} />
+                        <Route path='/Login' element={<Login/>}/>
                         <Route
                             path='/selection'
                             element={
