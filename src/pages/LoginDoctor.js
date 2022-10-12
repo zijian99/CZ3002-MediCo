@@ -28,7 +28,7 @@ export default function LoginUser() {
                 .then((userCredential) => {
                     console.log('Logged In Successfully');
                     const user = userCredential.user;
-                    navigate('/selection');
+                    navigate('/doctorselection');
                 })
                 .catch((error) => {
                     setLoading(false);
