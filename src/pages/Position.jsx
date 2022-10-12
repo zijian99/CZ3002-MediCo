@@ -1,54 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import {
+    Stack,
+    TextField,
+    Typography,
+    Grid,
+    CircularProgress,
+    Button,
+} from "@mui/material";
 
 export default function Position() {
-    const [postal, setPostal] = useState('');
+    const [postal, setPostal] = useState("");
     const [userCoordinates, setUserCoordinates] = useState({
         latitude: null,
         longitude: null,
     });
-    const geoData = require('../data/buildings.json');
-    const GPData = require('../data/GP.json');
+    const geoData = require("../data/buildings.json");
+    const GPData = require("../data/GP.json");
 
     return (
-        <div className='Positioning' onLoad={setPage()}>
+        <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+        >
             <img
-                id='localMap'
+                sx={{
+                    mt: 10,
+                    ml: 10,
+                    mb: 10,
+                    mr: 10,
+                }}
+                id="localMap"
                 src='https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=1.31955&lng=103.84223&zoom=17&height=512&width=400&polygons=&lines=&points=[1.31955,103.84223,"255,255,178","A"]&color=&fillColor='
             />
-            <p></p>
-            <button
-                onClick={handleUseMyLocation}
-                className='btn btn-secondary btn-sm m-2'
-            >
-                Use My Position
-            </button>
-            <form onSubmit={handleSubmitPostal}>
-                <label>
-                    Enter Postal:
-                    <input
-                        type='text'
-                        placeholder='e.g. 100000'
-                        value={postal}
-                        onChange={(e) => setPostal(e.target.value)}
-                    />
-                </label>
-                <input type='submit' />
-            </form>
-            <p id='locationString'></p>
-            <p id='GPString'></p>
-        </div>
+            <div className="Positioning" onLoad={setPage()}>
+                <Stack direction="column" spacing={2} alignItems="center">
+                    <Stack direction="column" spacing={2} alignItems="center">
+                        <Button
+                            variant="contained"
+                            onClick={handleUseMyLocation}
+                            className="btn btn-secondary btn-sm m-2"
+                        >
+                            Use My Position
+                        </Button>
+                        <TextField
+                            type="Postal"
+                            placeholder="Postal"
+                            label="Postal"
+                            onChange={(event) => {
+                                setPostal(event.target.value);
+                            }}
+                        />
+                        <Button
+                            variant="contained"
+                            sx={{
+                                mt: 10,
+                                ml: 10,
+                                mb: 10,
+                                mr: 10,
+                            }}
+                            onClick={() => handleSubmitPostal()}
+                        >
+                            Submit
+                        </Button>
+                    </Stack>
+                    <Stack direction="column" spacing={2} alignItems="center">
+                        <p id="locationString"></p>
+                        <p id="GPString"></p>
+                    </Stack>
+                </Stack>
+            </div>
+        </Stack>
     );
 
-    function handleSubmitPostal(event) {
-        event.preventDefault();
+    function handleSubmitPostal() {
         const coord = validatePostal();
-        if (coord == -1) {
-            document.getElementById('locationString').innerHTML =
-                'Invalid input. Please re-enter';
+        if (coord === -1) {
+            document.getElementById("locationString").innerHTML =
+                "Invalid input. Please re-enter";
             return;
-        } else if (coord == 0) {
-            document.getElementById('locationString').innerHTML =
-                'Your input does not match any location.';
+        } else if (coord === 0) {
+            document.getElementById("locationString").innerHTML =
+                "Your input does not match any location.";
             return;
         }
         setUserCoordinates({
@@ -60,7 +94,7 @@ export default function Position() {
     }
 
     function validatePostal() {
-        if (postal.length != 6) {
+        if (postal.length !== 6) {
             return -1;
         } else {
             for (let i = 0; i < 6; i++) {
@@ -110,22 +144,22 @@ export default function Position() {
     }
 
     function displayLocation() {
-        document.getElementById('locationString').innerHTML =
-            'Your location: Longitude: ' +
+        document.getElementById("locationString").innerHTML =
+            "Your location: Longitude: " +
             Number(userCoordinates.longitude).toFixed(6) +
-            ', Latitude: ' +
+            ", Latitude: " +
             Number(userCoordinates.latitude).toFixed(6);
     }
 
     function displayGP(GPIndex) {
-        document.getElementById('GPString').innerHTML =
-            'Nearest general polyclinic to you: ' +
+        document.getElementById("GPString").innerHTML =
+            "Nearest general polyclinic to you: " +
             GPData[GPIndex].Name +
-            '<br>Address: ' +
+            "<br>Address: " +
             GPData[GPIndex].Address +
-            ', ' +
+            ", " +
             GPData[GPIndex].Postal +
-            '<br>Contact: ' +
+            "<br>Contact: " +
             GPData[GPIndex].Contact;
         showMap(
             Number(GPData[GPIndex].LATITUDE),
@@ -138,12 +172,12 @@ export default function Position() {
             return;
         }
         let newSrc =
-            'https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=' +
+            "https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=" +
             lat +
-            '&lng=' +
+            "&lng=" +
             lon +
-            '&zoom=17&height=512&width=400&polygons=&lines=&points=&color=&fillColor=';
-        document.getElementById('localMap').src = newSrc;
+            "&zoom=17&height=512&width=400&polygons=&lines=&points=&color=&fillColor=";
+        document.getElementById("localMap").src = newSrc;
     }
 
     function setPage() {
@@ -153,7 +187,7 @@ export default function Position() {
     function postalToCoordinates(postal) {
         let i = 0;
         for (i; i < geoData.length; i++) {
-            if (geoData[i].POSTAL == postal) {
+            if (geoData[i].POSTAL === postal) {
                 return [geoData[i].LATITUDE, geoData[i].LONGITUDE];
             }
         }
