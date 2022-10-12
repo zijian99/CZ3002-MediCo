@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Typography, TextField, FormHelperText , Alert } from "@mui/material";
+import { Typography, TextField, FormHelperText , Alert , Grid, CircularProgress} from "@mui/material";
 import Sheet from '@mui/joy/Sheet';
 import { auth,db } from "../firebase";
 import '@firebase/firestore';
@@ -72,6 +72,16 @@ export default function Register(props) {
             /*setSubmitted(false);*/
         }
     };
+	const handleGender = (e) => {
+		setGender(e.target.value);
+		{/*setSubmitted(false);*/}
+	};
+	
+	const handleAge = (e) => {
+		setAge(e.target.value);
+		{/*setSubmitted(false);*/}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const queryRef = query(usersRef, where("email", "==", email));
@@ -107,7 +117,7 @@ export default function Register(props) {
 		
 				return setPcErr(true);
 			}
-			else if (age<=0)
+			else if (!Number(age)||age<1||age>100)
 			{
 				return setAgeError(true);
 			}
@@ -326,15 +336,6 @@ export default function Register(props) {
         />
 
             <TextField
-                // html input attribute
-                type='name'
-                placeholder='Name'
-                // pass down to FormLabel as children
-                label='Username'
-                onChange={handleName}
-            />
-
-            <TextField
                 type='email'
                 placeholder='medico@email.com'
                 label='Email'
@@ -368,7 +369,7 @@ export default function Register(props) {
 
             <TextField
                 // html input attribute
-                type='number'
+                type='text'
                 placeholder='Age'
                 // pass down to FormLabel as children
                 label='Age'
