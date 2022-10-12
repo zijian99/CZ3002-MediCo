@@ -71,8 +71,6 @@ export default function Home(props) {
                 onClick={() => navigate('/Login')}
                 sx={{
                     position: 'absolute',
-                    left: '12%',
-                    top: '720px',
                     fontSize: '20px',
                     display: 'flex',
                     backgroundColor: 'darkslategray',
@@ -81,7 +79,10 @@ export default function Home(props) {
                     borderRadius: '100px',
                     width: 'fit-content',
                     height: '40px',
-                }}
+                    bottom:'-25%',
+                    left:'15%'
+            
+            }}
             >
                 Click here to start
             </Button>
