@@ -7,6 +7,7 @@ import {
     CircularProgress,
     Button,
 } from "@mui/material";
+import { borders, spacing } from "@mui/system";
 
 export default function Position() {
     const [postal, setPostal] = useState("");
@@ -26,24 +27,39 @@ export default function Position() {
         >
             <img
                 sx={{
-                    mt: 10,
-                    ml: 10,
-                    mb: 10,
-                    mr: 10,
+                    t: 10,
+                    l: 10,
+                    b: 10,
+                    r: 10,
                 }}
                 id="localMap"
-                src='https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=1.31955&lng=103.84223&zoom=17&height=512&width=400&polygons=&lines=&points=[1.31955,103.84223,"255,255,178","A"]&color=&fillColor='
+                src="https://developers.onemap.sg/commonapi/staticmap/getStaticImage?layerchosen=default&lat=1.31955&lng=103.84223&zoom=17&height=512&width=400&polygons=&lines=&points=&color=&fillColor="
             />
             <div className="Positioning" onLoad={setPage()}>
-                <Stack direction="column" spacing={2} alignItems="center">
+                <Stack
+                    direction="column"
+                    spacing={2}
+                    alignItems="center"
+                    border={1}
+                    sx={{ width: "100%" }}
+                >
                     <Stack direction="column" spacing={2} alignItems="center">
                         <Button
+                            sx={{ m: 1 }}
                             variant="contained"
                             onClick={handleUseMyLocation}
                             className="btn btn-secondary btn-sm m-2"
                         >
                             Use My Position
                         </Button>
+                        <div>
+                            <Typography level="h4" component="h1" sx={{ textAlign: 'center' }}>
+                                or
+                            </Typography>
+                            <Typography level="body2" sx={{ textAlign: 'center' }}>
+                                <b>Input Postal Code:</b>
+                            </Typography>
+                        </div>
                         <TextField
                             type="Postal"
                             placeholder="Postal"
@@ -53,21 +69,16 @@ export default function Position() {
                             }}
                         />
                         <Button
+                            sx={{ m: 1 }}
                             variant="contained"
-                            sx={{
-                                mt: 10,
-                                ml: 10,
-                                mb: 10,
-                                mr: 10,
-                            }}
                             onClick={() => handleSubmitPostal()}
                         >
                             Submit
                         </Button>
                     </Stack>
                     <Stack direction="column" spacing={2} alignItems="center">
-                        <p id="locationString"></p>
-                        <p id="GPString"></p>
+                        <p id="locationString" sx={{ m: 1 }}></p>
+                        <p id="GPString" sx={{ m: 1 }}></p>
                     </Stack>
                 </Stack>
             </div>
