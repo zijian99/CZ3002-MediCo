@@ -24,6 +24,8 @@ export default function Position() {
             spacing={2}
             alignItems="center"
             justifyContent="center"
+            marginTop='2vh'
+            padding-top='8vh'
         >
             <img
                 sx={{

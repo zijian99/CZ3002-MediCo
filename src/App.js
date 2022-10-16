@@ -21,7 +21,9 @@ import Position from './pages/Position';
 import Login from './pages/Login';
 import LoginDoctor from './pages/LoginDoctor';
 import DoctorSelection from './pages/DoctorSelection';
-import DoctorSideChat from './pages/DoctorSideChat'
+import DoctorSideChat from './pages/DoctorSideChat';
+import Background from './img/MediCoBackground.png';
+import { margin, padding } from '@mui/system';
 //import Position from './pages/Position';
 
 let isFirefox;
@@ -67,10 +69,29 @@ function App() {
             break;
     }
 
+    /*const styles = {
+            backgroundImage: `url(${Background})`,
+            backgroundPosition: 'center right',
+            backgroundSize: 'inherit',
+            backgroundRepeat: 'repeat',
+            backgroundClip:'border-box',
+            width: '100vw',
+            height: '100vh',
+            backgroundAttachment: "fixed",
+            marginTop : 0
+    };*/
+    const styles = {
+        backgroundImage: `url(${Background})`,
+        backgroundClip:'border-box',
+        backgroundRepeat: 'repeat',
+        width: '100vw',
+        height: '100vh'
+    };
+
     return (
         <>
-            <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-            <div className='App'>
+            <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
+            <div className='App' style={styles}>
                 <BrowserRouter>
                     <Routes>
                         <Route

@@ -82,7 +82,7 @@ export default function Navbar(props) {
         </AppBar>
     ) : !props.loggedIn ? ( //display if user is logged out
         <AppBar position='static'>
-            <Toolbar sx={{ backgroundColor: '#00172D' }}>
+            <Toolbar sx={{ backgroundColor: '#00172D'}}>
                 <Button
                     href='/'
                     sx={{

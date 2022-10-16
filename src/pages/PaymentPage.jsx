@@ -28,7 +28,7 @@ export default function Payment(props) {
                         container
                         alignItems='center'
                         justifyContent='center'
-                        marginTop='10vh'
+                        //marginTop='10vh'
                     >
                         <Grid
                             item
@@ -39,6 +39,7 @@ export default function Payment(props) {
                             <Typography
                                 sx={{ fontWeight: 'bold' }}
                                 variant='h3'
+                                marginTop='10vh'
                             >
                                 Please Choose A Payment Method
                             </Typography>

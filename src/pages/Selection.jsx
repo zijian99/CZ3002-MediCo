@@ -58,7 +58,8 @@ export default function Selection(props) {
                 container
                 alignItems='center'
                 justifyContent='center'
-                marginTop='10vh'
+                //marginTop='10vh'
+                padding-top = '10vh'
             >
                 <Fade in={true} timeout={2000}>
                     <Grid container alignItems='center' justifyContent='center'>
@@ -71,6 +72,7 @@ export default function Selection(props) {
                             <Typography
                                 sx={{ fontWeight: 'bold' }}
                                 variant='h3'
+                                marginTop='10vh'
                             >
                                 Welcome! What would you like to do today?
                             </Typography>

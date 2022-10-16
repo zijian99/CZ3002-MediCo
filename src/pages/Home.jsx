@@ -79,7 +79,7 @@ export default function Home(props) {
                     borderRadius: '100px',
                     width: 'fit-content',
                     height: '40px',
-                    bottom:'-25%',
+                    bottom:'-10%',
                     left:'15%'
             
             }}

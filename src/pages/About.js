@@ -53,7 +53,7 @@ export default function About() {
 			  </Typography>
 			</AccordionSummary>
 			<AccordionDetails>
-			  <Typography variant="h7">
+			  <Typography variant="body2">
 				{text}
 			  </Typography>
 			</AccordionDetails>
@@ -69,7 +69,7 @@ export default function About() {
 			</AccordionSummary>
 			<AccordionDetails>
 			{teamNames.map((personName) => (
-			<Typography key={personName} variant='h7' display='block' align='left'>
+			<Typography key={personName} variant='body2' display='block' align='left'>
 				{personName}
 			</Typography>))}
 			</AccordionDetails>

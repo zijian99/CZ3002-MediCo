@@ -24,7 +24,6 @@ export default function Login() {
           my: 4, // margin top & botom
           py: 3, // padding top & bottom
           px: 2, // padding left & right
-          bgcolor: 'background.paper',
           borderRadius: 1,
         }}>
         <div>
