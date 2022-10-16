@@ -69,23 +69,14 @@ function App() {
             break;
     }
 
-    /*const styles = {
-            backgroundImage: `url(${Background})`,
-            backgroundPosition: 'center right',
-            backgroundSize: 'inherit',
-            backgroundRepeat: 'repeat',
-            backgroundClip:'border-box',
-            width: '100vw',
-            height: '100vh',
-            backgroundAttachment: "fixed",
-            marginTop : 0
-    };*/
     const styles = {
         backgroundImage: `url(${Background})`,
         backgroundClip:'border-box',
         backgroundRepeat: 'repeat',
-        width: '100vw',
-        height: '100vh'
+        minWidth: '100vw',
+        minHeight: '100vh',
+        backgroundSize: 'cover',
+        backgroundAttachment: "fixed"
     };
 
     return (
