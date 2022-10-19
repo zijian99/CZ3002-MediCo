@@ -3,7 +3,7 @@ Copyright © 2022 MediCo (Group 1)
 
 ![logo_transparent_cropped](https://user-images.githubusercontent.com/76023265/196356338-4a0ba752-8ebf-4eb3-adf1-1ee7d96719e6.png)
 
-**Note: The application backend will not be functional without connecting a Firebase application in "src/firebase.js". Please add your own Firebase application if you wish to test the app.
+**Note: The application backend will not be functional without connecting a Firebase application in "src/firebase.js". Please add your own Firebase application if you wish to test the app.**
 
 # Introduction
 
